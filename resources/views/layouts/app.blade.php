@@ -13,12 +13,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <header>
+    <header class="nav-fixed">
         <!-- Navigation bar here -->
         @include('layouts.navbar')
     </header>
 
-    <main>
+    <main id="layoutSidenav">
+        @include('layouts.sidenavbar')
         @yield('content')
     </main>
 
