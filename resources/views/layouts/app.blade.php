@@ -14,18 +14,20 @@
 </head>
 <body>
     <header class="nav-fixed">
-        <!-- Navigation bar here -->
         @include('layouts.navbar')
     </header>
 
     <main id="layoutSidenav">
         @include('layouts.sidenavbar')
-        @yield('content')
-    </main>
+        <div id="layoutSidenav_content">
+            @yield('content')
 
-    <footer>
-        <!-- Footer content here -->
-    </footer>
+            <footer>
+                @include('layouts.footer')
+            </footer>
+        </div>
+        
+    </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="js/scripts.js"></script>
