@@ -131,7 +131,7 @@
                             <nav class="sidenav-menu-nested nav">
                                 <a class="nav-link" href="{{ route('client.index') }}">Client List</a>
                                 <a class="nav-link" href="user-management-edit-user.html">Edit Client</a>
-                                <a class="nav-link" href="user-management-add-user.html">Add Client</a>
+                                <a class="nav-link" href="{{ route('client.create') }}">Add Client</a>
                                 <a class="nav-link" href="user-management-groups-list.html">Groups List</a>
                                 <a class="nav-link" href="user-management-org-details.html">Organization Details</a>
                             </nav>

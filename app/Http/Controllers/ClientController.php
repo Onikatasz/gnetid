@@ -23,7 +23,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        //
+        return view('client.create');
     }
 
     /**
@@ -31,8 +31,21 @@ class ClientController extends Controller
      */
     public function store(StoreClientRequest $request)
     {
-        //
+        // The request is already validated by StoreClientRequest
+    
+        // Create the new client and store in the database
+        Client::create([
+            'name' => $request->input('name'),
+            'nik' => $request->input('nik'),
+            'phone' => $request->input('phone'),
+            'address' => $request->input('address'),
+            'is_subscribed' => $request->input('is_subscribed'),
+        ]);
+    
+        // Redirect to the clients index page with a success message
+        return redirect()->route('client.index')->with('success', 'Client created successfully.');
     }
+    
 
     /**
      * Display the specified resource.
