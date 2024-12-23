@@ -12,6 +12,11 @@ class LoginController extends Controller
     use ValidatesRequests;
     public function showLoginForm()
     {
+        // Check if the user is already logged in
+        if (Auth::check()) {
+            return redirect()->route('dashboard');
+        }
+        
         return view('auth.login');
     }
 
