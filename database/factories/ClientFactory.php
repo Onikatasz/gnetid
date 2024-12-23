@@ -20,7 +20,8 @@ class ClientFactory extends Factory
             'name' => $this->faker->name(),
             'phone_number' => $this->faker->unique()->phoneNumber(),
             'nik' => $this->generateNik(),
-            'is_subscribe' => $this->faker->boolean(),
+            'address' => $this->faker->address(),
+            'is_subscribed' => $this->faker->boolean(),
         ];
     }
 

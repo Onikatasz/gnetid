@@ -16,18 +16,19 @@ class Client extends Model
     //     name varchar
     //     phone_number varchar unique
     //     nik varchar
-    //     is_subscribe bool
+    //     is_subscribed bool
     //   }
 
     protected $fillable = [
         'name',
         'phone_number',
         'nik',
-        'is_subscribe',
+        'address',
+        'is_subscribed',
     ];
 
     protected $casts = [
-        'is_subscribe' => 'boolean',
+        'is_subscribed' => 'boolean',
     ];
 
     // public function subscription()

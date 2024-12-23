@@ -12,7 +12,7 @@ return new class extends Migration
     //     name varchar
     //     phone_number varchar unique
     //     nik varchar unique
-    //     is_subscribe bool
+    //     is_subscribed bool
     //   }
     public function up(): void
     {
@@ -21,7 +21,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('phone_number')->unique();
             $table->string('nik')->unique();
-            $table->boolean('is_subscribe');
+            $table->string('address');
+            $table->boolean('is_subscribed');
             $table->timestamps();
         });
     }

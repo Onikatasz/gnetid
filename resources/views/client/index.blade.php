@@ -36,6 +36,7 @@
                             <th>Client</th>
                             <th>Phone Number</th>
                             <th>NIK</th>
+                            <th>Address</th>
                             <th>Joined Date</th>
                             <th>Actions</th>
                         </tr>
@@ -46,6 +47,7 @@
                             <th>Client</th>
                             <th>Phone Number</th>
                             <th>NIK</th>
+                            <th>Address</th>
                             <th>Joined Date</th>
                             <th>Actions</th>
                         </tr>
@@ -54,7 +56,7 @@
                         @foreach ($clients as $client)
                         <tr>
                             <td>
-                                @if ($client->is_subscribe)
+                                @if ($client->is_subscribed)
                                     <!-- Active (Subscribed) -->
                                     <span class="bg-success rounded-circle d-inline-block" style="width: 20px; height: 20px;"></span>
                                 @else
@@ -66,6 +68,7 @@
                             <td>{{ $client->name }}</td>
                             <td>{{ $client->phone_number }}</td>
                             <td>{{ $client->nik }}</td>
+                            <td>{{ $client->address }}</td>
                             <td>{{ $client->created_at->format('d M Y') }}</td>
                             <td>
                                 <a class="btn btn-datatable btn-icon btn-transparent-dark me-2" href="{{ route('client.edit', $client->id) }}"><i data-feather="edit"></i></a>
