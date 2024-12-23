@@ -22,36 +22,36 @@
                     <hr class="my-0" />
                     <div class="card-body p-5">
                         <!-- Login form-->
-                        <form>
-                            <!-- Form Group (email address)-->
+                        <form action="" method="post">
+                            @csrf
+                            <!-- Form Group (Username)-->
                             <div class="mb-3">
-                                <label class="text-gray-600 small" for="emailExample">Email address</label>
-                                <input class="form-control form-control-solid" type="text" placeholder="" aria-label="Email Address" aria-describedby="emailExample" />
+                                <label class="text-gray-600 small" for="emailExample">Username</label>
+                                <input class="form-control form-control-solid" name="username" type="text" placeholder="" value="{{ old('username') }}" aria-label="Username" aria-describedby="emailExample" />
+                                @error('username')
+                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                @enderror
                             </div>
                             <!-- Form Group (password)-->
                             <div class="mb-3">
                                 <label class="text-gray-600 small" for="passwordExample">Password</label>
-                                <input class="form-control form-control-solid" type="password" placeholder="" aria-label="Password" aria-describedby="passwordExample" />
+                                <input class="form-control form-control-solid" name="password" type="password" placeholder="" aria-label="Password" aria-describedby="passwordExample" />
+                                @error('username')
+                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                @enderror
                             </div>
-                            <!-- Form Group (forgot password link)-->
-                            <div class="mb-3"><a class="small" href="auth-password-social.html">Forgot your password?</a></div>
+
                             <!-- Form Group (login box)-->
                             <div class="d-flex align-items-center justify-content-between mb-0">
                                 <div class="form-check">
                                     <input class="form-check-input" id="checkRememberPassword" type="checkbox" value="" />
                                     <label class="form-check-label" for="checkRememberPassword">Remember password</label>
                                 </div>
-                                <a class="btn btn-primary" href="dashboard-1.html">Login</a>
+                                <button class="btn btn-primary">Login</button>
                             </div>
                         </form>
                     </div>
                     <hr class="my-0" />
-                    <div class="card-body px-5 py-4">
-                        <div class="small text-center">
-                            New user?
-                            <a href="auth-register-social.html">Create an account!</a>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
