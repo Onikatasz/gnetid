@@ -69,7 +69,7 @@
                             <td>{{ $client->phone }}</td>
                             <td>{{ $client->nik }}</td>
                             <td>{{ $client->address }}</td>
-                            <td>{{ $client->created_at->format('d M Y') }}</td>
+                            <td>{{ $client->created_at->format('d M Y H:i:s') }}</td>
                             <td>
                                 <a class="btn btn-datatable btn-icon btn-transparent-dark me-2" href="{{ route('client.edit', $client->id) }}"><i data-feather="edit"></i></a>
                                 <a class="btn btn-datatable btn-icon btn-transparent-dark" href="{{ route('client.destroy', $client->id) }}" onclick="event.preventDefault(); document.getElementById('delete-client-{{ $client->id }}').submit();"><i data-feather="trash-2"></i></a>
