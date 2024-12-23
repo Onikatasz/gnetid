@@ -14,14 +14,14 @@ class Client extends Model
     // client {
     //     id int pk
     //     name varchar
-    //     phone_number varchar unique
+    //     phone varchar unique
     //     nik varchar
     //     is_subscribed bool
     //   }
 
     protected $fillable = [
         'name',
-        'phone_number',
+        'phone',
         'nik',
         'address',
         'is_subscribed',

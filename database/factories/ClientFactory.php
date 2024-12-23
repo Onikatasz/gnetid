@@ -18,7 +18,7 @@ class ClientFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'phone_number' => $this->faker->unique()->phoneNumber(),
+            'phone' => $this->faker->unique()->phoneNumber(),
             'nik' => $this->generateNik(),
             'address' => $this->faker->address(),
             'is_subscribed' => $this->faker->boolean(),

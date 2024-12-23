@@ -10,7 +10,7 @@ return new class extends Migration
     // client {
     //     id int pk
     //     name varchar
-    //     phone_number varchar unique
+    //     phone varchar unique
     //     nik varchar unique
     //     is_subscribed bool
     //   }
@@ -19,7 +19,7 @@ return new class extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('phone_number')->unique();
+            $table->string('phone')->unique();
             $table->string('nik')->unique();
             $table->string('address');
             $table->boolean('is_subscribed');

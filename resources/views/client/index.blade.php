@@ -66,7 +66,7 @@
                             </td>
                             
                             <td>{{ $client->name }}</td>
-                            <td>{{ $client->phone_number }}</td>
+                            <td>{{ $client->phone }}</td>
                             <td>{{ $client->nik }}</td>
                             <td>{{ $client->address }}</td>
                             <td>{{ $client->created_at->format('d M Y') }}</td>
