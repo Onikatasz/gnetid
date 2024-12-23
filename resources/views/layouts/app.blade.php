@@ -12,8 +12,8 @@
     <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/js/all.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js" crossorigin="anonymous"></script>
 </head>
-<body>
-    <header class="nav-fixed">
+<body class="nav-fixed">
+    <header>
         @include('layouts.navbar')
     </header>
 
