@@ -65,7 +65,11 @@
                                 @endif
                             </td>
                             
-                            <td>{{ $client->name }}</td>
+                            <td>
+                                <a href="{{ route('client.show', $client->id) }}" class="text-decoration-none text-reset">
+                                    {{ $client->name }}
+                                </a>
+                            </td>                            
                             <td>{{ $client->phone }}</td>
                             <td>{{ $client->nik }}</td>
                             <td>{{ $client->address }}</td>
