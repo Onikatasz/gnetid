@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\SubscriptionPlanController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,5 +31,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{client}/edit', [ClientController::class, 'edit'])->name('client.edit');
         Route::put('/{client}', [ClientController::class, 'update'])->name('client.update');
         Route::delete('/{client}', [ClientController::class, 'destroy'])->name('client.destroy');
+    });
+
+    Route::prefix('/subscription-plan')->group(function () {
+        Route::get('/', [SubscriptionPlanController::class, 'index'])->name('subscription_plan.index');
+        Route::get('/create', [SubscriptionPlanController::class, 'create'])->name('subscription_plan.create');
+        Route::post('/store', [SubscriptionPlanController::class, 'store'])->name('subscription_plan.store');
+        Route::get('/{subscriptionPlan}', [SubscriptionPlanController::class, 'show'])->name('subscription_plan.show');
+        Route::get('/{subscriptionPlan}/edit', [SubscriptionPlanController::class, 'edit'])->name('subscription_plan.edit');
+        Route::put('/{subscriptionPlan}', [SubscriptionPlanController::class, 'update'])->name('subscription_plan.update');
+        Route::delete('/{subscriptionPlan}', [SubscriptionPlanController::class, 'destroy'])->name('subscription_plan.destroy');
     });
 });

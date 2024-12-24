@@ -140,8 +140,8 @@
                         </a>
                         <div class="collapse" id="appsCollapsePostsManagement" data-bs-parent="#accordionSidenavAppsMenu">
                             <nav class="sidenav-menu-nested nav">
-                                <a class="nav-link" href="blog-management-posts-list.html">Subscription List</a>
-                                <a class="nav-link" href="blog-management-create-post.html">Create Subscription</a>
+                                <a class="nav-link" href="{{ route('subscription_plan.index') }}">Subscription List</a>
+                                <a class="nav-link" href="{{ route('subscription_plan.create') }}">Create Subscription</a>
                             </nav>
                         </div>
                     </nav>
