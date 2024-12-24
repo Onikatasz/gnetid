@@ -67,15 +67,6 @@
                                 <input class="form-control" id="inputAddress" name="address" type="text" placeholder="Enter your address" value="{{ $client->address }}" />
                             </div>
                         
-                            <!-- Form Group (subscription) -->
-                            <div class="mb-3">
-                                <label class="small mb-1" for="inputSubscription">Subscription Status</label>
-                                <select class="form-select" id="inputSubscription" name="is_subscribed">
-                                    <option value="1" {{ $client->is_subscribed ? 'selected' : '' }}>Subscribed</option>
-                                    <option value="0" {{ !$client->is_subscribed ? 'selected' : '' }}>Not Subscribed</option>
-                                </select>
-                            </div>
-                        
                             <!-- Save changes button -->
                             <button class="btn btn-primary" type="submit">Save changes</button>
                             <a class="btn btn-danger" href="{{ route('client.destroy', $client->id) }} ">Delete Client</a>

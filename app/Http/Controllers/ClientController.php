@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
+use Carbon\Carbon;
 
 class ClientController extends Controller
 {
@@ -13,11 +14,23 @@ class ClientController extends Controller
      */
     public function index()
     {
-        // Show all clients
+        // Get the current date and time
+        $currentDate = Carbon::now();
+    
+        // Retrieve all clients
         $clients = Client::all();
-        return view('client.index', compact('clients'));
+    
+        // Retrieve clients with valid subscriptions (not expired)
+        $clientsWithValidSubscriptions = Client::whereHas('subscriptions', function($query) use ($currentDate) {
+            $query->where('end_date', '>', $currentDate); // Check if the subscription is still valid
+        })->get();
+    
+        // Return the data to a view
+        return view('client.index', [
+            'clients' => $clients,
+            'clientsWithValidSubscriptions' => $clientsWithValidSubscriptions,
+        ]);
     }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -39,7 +52,6 @@ class ClientController extends Controller
             'nik' => $request->input('nik'),
             'phone' => $request->input('phone'),
             'address' => $request->input('address'),
-            'is_subscribed' => $request->input('is_subscribed'),
         ]);
     
         // Redirect to the clients index page with a success message
@@ -76,7 +88,6 @@ class ClientController extends Controller
             'nik' => $request->input('nik'),
             'phone' => $request->input('phone'),
             'address' => $request->input('address'),
-            'is_subscribed' => $request->boolean('is_subscribed'), // Ensure boolean handling
         ]);
         
     

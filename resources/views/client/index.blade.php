@@ -56,7 +56,7 @@
                         @foreach ($clients as $client)
                         <tr>
                             <td>
-                                @if ($client->is_subscribed)
+                                @if ($clientsWithValidSubscriptions->contains($client)) 
                                     <!-- Active (Subscribed) -->
                                     <span class="bg-success rounded-circle d-inline-block" style="width: 20px; height: 20px;"></span>
                                 @else

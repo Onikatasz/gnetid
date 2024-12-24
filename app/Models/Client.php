@@ -16,7 +16,6 @@ class Client extends Model
     //     name varchar
     //     phone varchar unique
     //     nik varchar
-    //     is_subscribed bool
     //   }
 
     protected $fillable = [
@@ -24,15 +23,10 @@ class Client extends Model
         'phone',
         'nik',
         'address',
-        'is_subscribed',
     ];
 
-    protected $casts = [
-        'is_subscribed' => 'boolean',
-    ];
-
-    // public function subscription()
-    // {
-    //     return $this->hasOne(Subscription::class);
-    // }
+    public function subscriptions()
+    {
+        return $this->hasOne(Subscription::class);
+    }
 }
