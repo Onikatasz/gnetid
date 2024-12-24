@@ -18,5 +18,12 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin',
             'username' => 'Admin',
         ]);
+
+        $this->call([
+            UserSeeder::class,
+            ClientSeeder::class,
+            SubscriptionPlanSeeder::class,
+            SubscriptionSeeder::class,
+        ]);
     }
 }
