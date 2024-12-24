@@ -78,6 +78,7 @@
                         
                             <!-- Save changes button -->
                             <button class="btn btn-primary" type="submit">Save changes</button>
+                            <a class="btn btn-danger" href="{{ route('client.destroy', $client->id) }} ">Delete Client</a>
                         </form>
                         
                     </div>

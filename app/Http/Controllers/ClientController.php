@@ -89,6 +89,10 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        //
+        // Delete the client
+        $client->delete();
+    
+        // Redirect to the clients index page with a success message
+        return redirect()->route('client.index')->with('success', 'Client deleted successfully.');
     }
 }
