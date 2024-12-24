@@ -60,7 +60,7 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
-        //
+        return view('client.edit', compact(var_name: 'client'));
     }
 
     /**
@@ -68,7 +68,20 @@ class ClientController extends Controller
      */
     public function update(UpdateClientRequest $request, Client $client)
     {
-        //
+        // The request is already validated by UpdateClientRequest
+    
+        // Update the client with the new data
+        $client->update([
+            'name' => $request->input('name'),
+            'nik' => $request->input('nik'),
+            'phone' => $request->input('phone'),
+            'address' => $request->input('address'),
+            'is_subscribed' => $request->boolean('is_subscribed'), // Ensure boolean handling
+        ]);
+        
+    
+        // Redirect to the clients index page with a success message
+        return redirect()->route('client.index')->with('success', 'Client updated successfully.');
     }
 
     /**

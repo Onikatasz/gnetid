@@ -1,8 +1,9 @@
 @extends('layouts.app')
 
-@section('title', '{{ $client->name }}')
+@section('title', $client->name)
 
 @section('content')
+
 
 <main>
     <header class="page-header page-header-compact page-header-light border-bottom bg-white mb-4">
@@ -35,41 +36,50 @@
                 <div class="card mb-4">
                     <div class="card-header">Client Details</div>
                     <div class="card-body">
-                        <form>
-                            <!-- Form Group (username)-->
+                        <!-- Form Start -->
+                        <form action="{{ route('client.update', $client->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                        
+                            <!-- Form Group (name) -->
                             <div class="mb-3">
-                                <label class="small mb-1" for="inputUsername">Username</label>
-                                <input class="form-control" id="inputUsername" type="text" placeholder="Enter your username" value="{{ $client->name }}" />
+                                <label class="small mb-1" for="inputUsername">Name</label>
+                                <input class="form-control" id="inputUsername" name="name" type="text" placeholder="Enter your username" value="{{ $client->name }}" />
                             </div>
-                            <!-- Form Row-->
+                        
+                            <!-- Form Row -->
                             <div class="row gx-3 mb-3">
-                                <!-- Form Group (phone number)-->
+                                <!-- Form Group (phone number) -->
                                 <div class="col-md-6">
                                     <label class="small mb-1" for="inputPhone">Phone number</label>
-                                    <input class="form-control" id="inputPhone" type="tel" placeholder="Enter your phone number" value="{{ $client->phone }}" />
+                                    <input class="form-control" id="inputPhone" name="phone" type="tel" placeholder="Enter your phone number" value="{{ $client->phone }}" />
                                 </div>
-                                <!-- Form Group (NIK)-->
+                                <!-- Form Group (NIK) -->
                                 <div class="col-md-6">
                                     <label class="small mb-1" for="inputNik">NIK</label>
-                                    <input class="form-control" id="inputNik" type="text" placeholder="Enter NIK" value="{{ $client->nik }}" />
+                                    <input class="form-control" id="inputNik" name="nik" type="text" placeholder="Enter NIK" value="{{ $client->nik }}" />
                                 </div>
                             </div>
-                            <!-- Form Group (address)-->
+                        
+                            <!-- Form Group (address) -->
                             <div class="mb-3">
                                 <label class="small mb-1" for="inputAddress">Address</label>
-                                <input class="form-control" id="inputAddress" type="text" placeholder="Enter your address" value="{{ $client->address }}" />
+                                <input class="form-control" id="inputAddress" name="address" type="text" placeholder="Enter your address" value="{{ $client->address }}" />
                             </div>
-                            <!-- Form Group (subscription)-->
+                        
+                            <!-- Form Group (subscription) -->
                             <div class="mb-3">
                                 <label class="small mb-1" for="inputSubscription">Subscription Status</label>
-                                <select class="form-select" id="inputSubscription">
+                                <select class="form-select" id="inputSubscription" name="is_subscribed">
                                     <option value="1" {{ $client->is_subscribed ? 'selected' : '' }}>Subscribed</option>
                                     <option value="0" {{ !$client->is_subscribed ? 'selected' : '' }}>Not Subscribed</option>
                                 </select>
                             </div>
-                            <!-- Save changes button-->
+                        
+                            <!-- Save changes button -->
                             <button class="btn btn-primary" type="submit">Save changes</button>
                         </form>
+                        
                     </div>
                 </div>
             </div>
