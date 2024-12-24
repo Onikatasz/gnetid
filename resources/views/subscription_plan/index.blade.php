@@ -49,7 +49,11 @@
                     <tbody>
                         @foreach ($subscriptionPlans as $plan)
                         <tr>
-                            <td>{{ $plan->title }}</td>
+                            <td>
+                                <a href="{{ route('subscription_plan.show', $plan->id) }}" class="text-decoration-none text-reset">
+                                    {{ $plan->title }}
+                                </a>
+                            </td>
                             <td>{{ $plan->price }}</td>
                             <td>{{ $plan->duration_days }}</td>
                             <td>

@@ -44,7 +44,7 @@ class SubscriptionPlanController extends Controller
      */
     public function show(SubscriptionPlan $subscriptionPlan)
     {
-        //
+        return view('subscription_plan.show', compact('subscriptionPlan'));
     }
 
     /**
@@ -52,7 +52,7 @@ class SubscriptionPlanController extends Controller
      */
     public function edit(SubscriptionPlan $subscriptionPlan)
     {
-        //
+        return view('subscription_plan.edit', compact('subscriptionPlan'));
     }
 
     /**
@@ -60,7 +60,13 @@ class SubscriptionPlanController extends Controller
      */
     public function update(UpdateSubscriptionPlanRequest $request, SubscriptionPlan $subscriptionPlan)
     {
-        //
+        $subscriptionPlan->update([
+            'title' => $request->input('title'),
+            'price' => $request->input('price'),
+            'duration_days' => $request->input('duration_days'),
+        ]);
+
+        return redirect()->route('subscription_plan.index')->with('success', 'Subscription plan updated successfully.');
     }
 
     /**
