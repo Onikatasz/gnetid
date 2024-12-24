@@ -22,7 +22,7 @@ class SubscriptionPlanController extends Controller
      */
     public function create()
     {
-        //
+        return view('subscription_plan.create');
     }
 
     /**
@@ -30,7 +30,13 @@ class SubscriptionPlanController extends Controller
      */
     public function store(StoreSubscriptionPlanRequest $request)
     {
-        //
+        SubscriptionPlan::create([
+            'title' => $request->input('title'),
+            'price' => $request->input('price'),
+            'duration_days' => $request->input('duration_days'),
+        ]);
+
+        return redirect()->route('subscription_plan.index')->with('success', 'Subscription plan created successfully.');
     }
 
     /**
