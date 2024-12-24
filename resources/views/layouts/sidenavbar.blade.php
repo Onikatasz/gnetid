@@ -130,23 +130,18 @@
                         <div class="collapse" id="appsCollapseUserManagement" data-bs-parent="#accordionSidenavAppsMenu">
                             <nav class="sidenav-menu-nested nav">
                                 <a class="nav-link" href="{{ route('client.index') }}">Client List</a>
-                                <a class="nav-link" href="user-management-edit-user.html">Edit Client</a>
                                 <a class="nav-link" href="{{ route('client.create') }}">Add Client</a>
-                                <a class="nav-link" href="user-management-groups-list.html">Groups List</a>
-                                <a class="nav-link" href="user-management-org-details.html">Organization Details</a>
                             </nav>
                         </div>
                         <!-- Nested Sidenav Accordion (Apps -> Posts Management)-->
                         <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#appsCollapsePostsManagement" aria-expanded="false" aria-controls="appsCollapsePostsManagement">
-                            Posts Management
+                            Subscription Management
                             <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
                         <div class="collapse" id="appsCollapsePostsManagement" data-bs-parent="#accordionSidenavAppsMenu">
                             <nav class="sidenav-menu-nested nav">
-                                <a class="nav-link" href="blog-management-posts-list.html">Posts List</a>
-                                <a class="nav-link" href="blog-management-create-post.html">Create Post</a>
-                                <a class="nav-link" href="blog-management-edit-post.html">Edit Post</a>
-                                <a class="nav-link" href="blog-management-posts-admin.html">Posts Admin</a>
+                                <a class="nav-link" href="blog-management-posts-list.html">Subscription List</a>
+                                <a class="nav-link" href="blog-management-create-post.html">Create Subscription</a>
                             </nav>
                         </div>
                     </nav>
