@@ -74,6 +74,7 @@ class SubscriptionPlanController extends Controller
      */
     public function destroy(SubscriptionPlan $subscriptionPlan)
     {
-        //
+        $subscriptionPlan->delete();
+        return redirect()->route('subscription_plan.index')->with('success', 'Subscription plan deleted successfully.');
     }
 }
