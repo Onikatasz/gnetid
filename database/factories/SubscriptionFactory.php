@@ -27,7 +27,7 @@ class SubscriptionFactory extends Factory
                 // Randomly assign a subscription plan from the existing plans
                 return SubscriptionPlan::inRandomOrder()->first()->id;
             },
-            'end_date' => $this->faker->dateTimeBetween('now', '+1 month'),
+            'end_date' => $this->faker->dateTimeBetween('-1 year', '+1 month'),
         ];
     }
 }
