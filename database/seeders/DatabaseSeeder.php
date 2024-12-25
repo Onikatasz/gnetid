@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             SubscriptionPlanSeeder::class,
             SubscriptionSeeder::class,
+            TicketSeeder::class,
         ]);
     }
 }
