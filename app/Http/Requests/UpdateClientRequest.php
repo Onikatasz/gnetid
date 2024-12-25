@@ -26,7 +26,6 @@ class UpdateClientRequest extends FormRequest
             'nik' => 'required|string|size:16|unique:clients,nik,' . $this->route('client')->id,
             'phone' => 'required|string|max:20|unique:clients,phone,' . $this->route('client')->id,
             'address' => 'required|string|max:500',
-            'is_subscribed' => 'required|boolean',
         ];
     }
 

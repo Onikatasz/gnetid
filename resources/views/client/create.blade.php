@@ -61,19 +61,6 @@
                                 <textarea class="form-control" id="address" name="address" rows="3" required>{{ old('address') }}</textarea>
                             </div>
 
-                            <!-- Subscription Status -->
-                            <div class="mb-3">
-                                <label class="small mb-1">Subscription Status</label>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" id="subscribedYes" type="radio" name="is_subscribed" value="1" {{ old('is_subscribed') == '1' ? 'checked' : '' }} required>
-                                    <label class="form-check-label" for="subscribedYes">Subscribed</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" id="subscribedNo" type="radio" name="is_subscribed" value="0" {{ old('is_subscribed') == '0' ? 'checked' : '' }} required>
-                                    <label class="form-check-label" for="subscribedNo">Not Subscribed</label>
-                                </div>
-                            </div>
-
                             <!-- Submit button -->
                             <div class="mt-3">
                                 <button class="btn btn-primary" type="submit">Add Client</button>
