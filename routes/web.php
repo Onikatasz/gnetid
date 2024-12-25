@@ -18,6 +18,18 @@ Route::prefix('/auth')->group(function () {
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 });
 
+Route::prefix('/client')->group(function () {
+    Route::get('/login', [ClientController::class, 'showLoginClientForm'])->name('showLoginClientForm');
+    Route::post('/login', [ClientController::class, 'login'])->name('client.login');
+    Route::post('/logout', [ClientController::class, 'logout'])->name('client.logout');
+});
+
+Route::middleware(['auth:client'])->group(function () {
+    Route::prefix('/client')->group(function () {
+        Route::get('/dashboard', [ClientController::class, 'dashboard'])->name('client.dashboard');
+    });
+});
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
@@ -42,4 +54,6 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/{subscriptionPlan}', [SubscriptionPlanController::class, 'update'])->name('subscription_plan.update');
         Route::delete('/{subscriptionPlan}', [SubscriptionPlanController::class, 'destroy'])->name('subscription_plan.destroy');
     });
+
+    
 });

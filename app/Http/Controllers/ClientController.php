@@ -7,6 +7,8 @@ use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Models\Subscription;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
@@ -109,5 +111,49 @@ class ClientController extends Controller
     
         // Redirect to the clients index page with a success message
         return redirect()->route('client.index')->with('success', 'Client deleted successfully.');
+    }
+
+    public function showLoginClientForm()
+    {
+        if (Auth::check()) {
+            return redirect()->route('client.dashboard');
+        }
+
+        return view('client.login');
+    }
+
+    public function login(Request $request)
+    {
+        $request->validate([
+            'phone' => 'required|string|max:20,phone',
+        ]);
+
+        // Find client by phone
+        $client = Client::where('phone', $request->input('phone'))->first();
+
+        if ($client) {
+            // Log in manually without password
+            Auth::guard('client')->login($client); // Logs in the client directly
+    
+            return redirect()->route('client.dashboard');
+        }
+
+        // Return error if phone number does not exist
+        return back()->withInput($request->only('phone'))->withErrors([
+            'phone' => 'Invalid phone number.',
+        ]);
+    }
+
+    public function dashboard()
+    {
+        // Check if the client is not logged in using the 'client' guard
+        if (!Auth::guard('client')->check()) {
+            return redirect()->route('client.login');
+        }
+
+        // Get the authenticated client
+        $client = Auth::guard('client')->user();
+
+        return view('client.dashboard', compact('client'));
     }
 }
