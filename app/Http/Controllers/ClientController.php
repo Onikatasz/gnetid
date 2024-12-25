@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
+use App\Models\Subscription;
 use Carbon\Carbon;
 
 class ClientController extends Controller
@@ -14,23 +15,26 @@ class ClientController extends Controller
      */
     public function index()
     {
-        // Get the current date and time
         $currentDate = Carbon::now();
-    
-        // Retrieve all clients
-        $clients = Client::all();
-    
-        // Retrieve clients with valid subscriptions (not expired)
+
+        // Retrieve all clients with subscriptions (if any)
+        $clients = Client::with('subscriptions')->get();
+
+        // Filter clients with valid subscriptions
         $clientsWithValidSubscriptions = Client::whereHas('subscriptions', function($query) use ($currentDate) {
-            $query->where('end_date', '>', $currentDate); // Check if the subscription is still valid
+            $query->where('end_date', '>', $currentDate);
         })->get();
-    
-        // Return the data to a view
+
+        // Retrieve all subscriptions
+        $subscriptionsClient = Subscription::all();
+
         return view('client.index', [
             'clients' => $clients,
             'clientsWithValidSubscriptions' => $clientsWithValidSubscriptions,
+            'subscriptionsClient' => $subscriptionsClient
         ]);
     }
+
     /**
      * Show the form for creating a new resource.
      */

@@ -37,6 +37,7 @@
                             <th>Phone Number</th>
                             <th>NIK</th>
                             <th>Address</th>
+                            <th>End Date</th>
                             <th>Joined Date</th>
                             <th>Actions</th>
                         </tr>
@@ -48,6 +49,7 @@
                             <th>Phone Number</th>
                             <th>NIK</th>
                             <th>Address</th>
+                            <th>End Date</th>
                             <th>Joined Date</th>
                             <th>Actions</th>
                         </tr>
@@ -73,6 +75,12 @@
                             <td>{{ $client->phone }}</td>
                             <td>{{ $client->nik }}</td>
                             <td>{{ $client->address }}</td>
+                            @php
+                                $subscription = $subscriptionsClient->where('client_id', $client->id)->first();
+                            @endphp
+                            <td data-order="{{ $subscription ? \Carbon\Carbon::parse($subscription->end_date)->timestamp : 0 }}">
+                                {{ $subscription ? \Carbon\Carbon::parse($subscription->end_date)->format('d M Y H:i:s') : 'No subscription' }}
+                            </td>                                                      
                             <td>{{ $client->created_at->format('d M Y H:i:s') }}</td>
                             <td>
                                 <a class="btn btn-datatable btn-icon btn-transparent-dark me-2" href="{{ route('client.edit', $client->id) }}"><i data-feather="edit"></i></a>
