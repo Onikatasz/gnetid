@@ -144,6 +144,15 @@ class ClientController extends Controller
         ]);
     }
 
+    public function logout(Request $request)
+    {
+        Auth::guard('client')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/client/login');
+    }
+
     public function dashboard()
     {
         // Check if the client is not logged in using the 'client' guard

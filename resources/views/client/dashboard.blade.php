@@ -16,7 +16,7 @@
                             <p class="text-muted mb-4">Create an ticket</p>
                         </div>
                         <div class="icons-org-create align-items-center mx-auto mt-auto">
-                            <i class="icon-users" data-feather="users"></i>
+                            <i class="icon-users" data-feather="mail"></i>
                             <i class="icon-plus fas fa-plus"></i>
                         </div>
                     </div>
@@ -34,15 +34,39 @@
                             <p class="text-muted mb-4">Check all your ticket progress</p>
                         </div>
                         <div class="icons-org-join align-items-center mx-auto">
-                            <i class="icon-user" data-feather="user"></i>
+                            <i class="icon-user" data-feather="mail"></i>
                             <i class="icon-arrow fas fa-long-arrow-alt-right"></i>
-                            <i class="icon-users" data-feather="users"></i>
+                            <i class="icon-users" data-feather="check-square"></i>
                         </div>
                     </div>
                     <div class="card-footer bg-transparent px-5 py-4">
                         <div class="small text-center"><a class="btn btn-block btn-secondary" href="multi-tenant-join.html">Check ticket</a></div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-xl px-4">
+        <div class="row justify-content-center">
+            <div class="col-xl-5 col-lg-6 col-md-8 col-sm-11 mt-4">
+
+                <!-- Logout -->
+                <div class="dropdown text-center">
+                    <button class="btn btn-teal dropdown-toggle" id="dropdownMenuButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ $client->name }}</button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{{ route('client.logout') }}"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <div class="dropdown-item-icon"><i data-feather="log-out"></i></div>
+                            Logout
+                        </a>
+                        <a class="dropdown-item" href="#!">Another action</a>
+                        <a class="dropdown-item" href="#!">Something else here</a>
+                    </div>
+                </div>
+                <form id="logout-form" action="{{ route('client.logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
             </div>
         </div>
     </div>
