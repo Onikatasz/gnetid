@@ -115,7 +115,7 @@ class ClientController extends Controller
 
     public function showLoginClientForm()
     {
-        if (Auth::check()) {
+        if (Auth::guard('client')->check()) {
             return redirect()->route('client.dashboard');
         }
 
@@ -134,6 +134,9 @@ class ClientController extends Controller
         if ($client) {
             // Log in manually without password
             Auth::guard('client')->login($client); // Logs in the client directly
+
+            // Create session data
+            $request->session()->put('client_id', $client->id);
     
             return redirect()->route('client.dashboard');
         }
@@ -150,14 +153,14 @@ class ClientController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/client/login');
+        return redirect()->route('showLoginClientForm');
     }
 
     public function dashboard()
     {
         // Check if the client is not logged in using the 'client' guard
         if (!Auth::guard('client')->check()) {
-            return redirect()->route('client.login');
+            return redirect()->route('showLoginClientForm');
         }
 
         // Get the authenticated client

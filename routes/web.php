@@ -22,12 +22,8 @@ Route::prefix('/client')->group(function () {
     Route::get('/login', [ClientController::class, 'showLoginClientForm'])->name('showLoginClientForm');
     Route::post('/login', [ClientController::class, 'login'])->name('client.login');
     Route::post('/logout', [ClientController::class, 'logout'])->name('client.logout');
-});
 
-Route::middleware(['auth:client'])->group(function () {
-    Route::prefix('/client')->group(function () {
-        Route::get('/dashboard', [ClientController::class, 'dashboard'])->name('client.dashboard');
-    });
+    Route::get('/dashboard', [ClientController::class, 'dashboard'])->name('client.dashboard');
 });
 
 Route::middleware(['auth'])->group(function () {
