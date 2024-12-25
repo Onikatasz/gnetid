@@ -34,6 +34,7 @@
                         <tr>
                             <th>Active</th>
                             <th>Client</th>
+                            <th>Plan</th>
                             <th>Phone Number</th>
                             <th>NIK</th>
                             <th>Address</th>
@@ -46,6 +47,7 @@
                         <tr>
                             <th>Active</th>
                             <th>Client</th>
+                            <th>Plan</th>
                             <th>Phone Number</th>
                             <th>NIK</th>
                             <th>Address</th>
@@ -57,6 +59,10 @@
                     <tbody>
                         @foreach ($clients as $client)
                         <tr>
+                            @php
+                                $subscription = $subscriptionsClient->where('client_id', $client->id)->first();
+                            @endphp
+
                             <td>
                                 @if ($clientsWithValidSubscriptions->contains($client)) 
                                     <!-- Active (Subscribed) -->
@@ -71,13 +77,13 @@
                                 <a href="{{ route('client.show', $client->id) }}" class="text-decoration-none text-reset">
                                     {{ $client->name }}
                                 </a>
-                            </td>                            
+                            </td>
+                            <td>
+                                {{ $subscription && $subscription->subscriptionPlan ? $subscription->subscriptionPlan->title : 'No Plan' }}
+                            </td>                                                    
                             <td>{{ $client->phone }}</td>
                             <td>{{ $client->nik }}</td>
                             <td>{{ $client->address }}</td>
-                            @php
-                                $subscription = $subscriptionsClient->where('client_id', $client->id)->first();
-                            @endphp
                             <td data-order="{{ $subscription ? \Carbon\Carbon::parse($subscription->end_date)->timestamp : 0 }}">
                                 {{ $subscription ? \Carbon\Carbon::parse($subscription->end_date)->format('d M Y H:i:s') : 'No subscription' }}
                             </td>                                                      
