@@ -133,15 +133,25 @@
                                 <a class="nav-link" href="{{ route('client.create') }}">Add Client</a>
                             </nav>
                         </div>
-                        <!-- Nested Sidenav Accordion (Apps -> Posts Management)-->
-                        <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#appsCollapsePostsManagement" aria-expanded="false" aria-controls="appsCollapsePostsManagement">
+                        <!-- Nested Sidenav Accordion (Apps -> Plans Management)-->
+                        <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#appsCollapsePlansManagement" aria-expanded="false" aria-controls="appsCollapsePlansManagement">
                             Subscription Management
                             <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        <div class="collapse" id="appsCollapsePostsManagement" data-bs-parent="#accordionSidenavAppsMenu">
+                        <div class="collapse" id="appsCollapsePlansManagement" data-bs-parent="#accordionSidenavAppsMenu">
                             <nav class="sidenav-menu-nested nav">
                                 <a class="nav-link" href="{{ route('subscription_plan.index') }}">Subscription List</a>
                                 <a class="nav-link" href="{{ route('subscription_plan.create') }}">Create Subscription</a>
+                            </nav>
+                        </div>
+                        <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#appsCollapseTicketsManagement" aria-expanded="false" aria-controls="appsCollapseTicketsManagement">
+                            Ticket Management
+                            <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="appsCollapseTicketsManagement" data-bs-parent="#accordionSidenavAppsMenu">
+                            <nav class="sidenav-menu-nested nav">
+                                <a class="nav-link" href="{{ route('ticket.index') }}">Ticket List</a>
+                                <a class="nav-link" href="{{ route('ticket.create') }}">Create Ticket</a>
                             </nav>
                         </div>
                     </nav>

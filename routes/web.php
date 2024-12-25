@@ -6,6 +6,7 @@ use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\SubscriptionPlanController;
+use App\Http\Controllers\TicketController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -49,6 +50,16 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{subscriptionPlan}/edit', [SubscriptionPlanController::class, 'edit'])->name('subscription_plan.edit');
         Route::put('/{subscriptionPlan}', [SubscriptionPlanController::class, 'update'])->name('subscription_plan.update');
         Route::delete('/{subscriptionPlan}', [SubscriptionPlanController::class, 'destroy'])->name('subscription_plan.destroy');
+    });
+
+    Route::prefix('/ticket')->group(function () {
+        Route::get('/', [TicketController::class, 'index'])->name('ticket.index');
+        Route::get('/create', [TicketController::class, 'create'])->name('ticket.create');
+        Route::post('/store', [TicketController::class, 'store'])->name('ticket.store');
+        Route::get('/{ticket}', [TicketController::class, 'show'])->name('ticket.show');
+        Route::get('/{ticket}/edit', [TicketController::class, 'edit'])->name('ticket.edit');
+        Route::put('/{ticket}', [TicketController::class, 'update'])->name('ticket.update');
+        Route::delete('/{ticket}', [TicketController::class, 'destroy'])->name('ticket.destroy');
     });
 
     
