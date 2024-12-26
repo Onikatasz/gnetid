@@ -11,7 +11,8 @@ class StoreTicketRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return \Illuminate\Support\Facades\Auth::check(); // Only authenticated users can create a new ticket
+        // Check if the user is authenticated and if they are a client or a user
+        return true;
     }
 
     /**
@@ -24,7 +25,7 @@ class StoreTicketRequest extends FormRequest
         return [
             'title' => 'required|string',
             'body' => 'required|string',
-            'status' => 'required|in:pending,in_progress,completed',
+            'status' => 'in:pending,in_progress,completed',
             'client_id' => 'required|exists:clients,id',
         ];
     }

@@ -9,6 +9,12 @@
         <div class="container-fluid px-4">
             <div class="page-header-content">
                 <div class="row align-items-center justify-content-between pt-3">
+                    <div class="col-12 col-xl-auto mb-3">
+                        <a class="btn btn-sm btn-light text-primary" href="{{ route('client.dashboard') }}">
+                            <i class="me-1" data-feather="arrow-left"></i>
+                            Back to Dashboard
+                        </a>
+                    </div>
                     <div class="col-auto mb-3">
                         <h1 class="page-header-title">
                             <div class="page-header-icon"><i data-feather="list"></i></div>
@@ -16,7 +22,7 @@
                         </h1>
                     </div>
                     <div class="col-12 col-xl-auto mb-3">
-                        <a class="btn btn-sm btn-light text-primary" href="{{ route('ticket.create') }}">
+                        <a class="btn btn-sm btn-light text-primary" href="{{ route('ticket.createMyTicket') }}">
                             <i class="me-1" data-feather="plus"></i>
                             Create New Ticket
                         </a>
@@ -33,7 +39,7 @@
                     <thead>
                         <tr>
                             <th>Title</th>
-                            <th>Client</th>
+                            <th>Body</th>
                             <th>Date</th>
                             <th>Status</th>
                             <th>Actions</th>
@@ -42,7 +48,7 @@
                     <tfoot>
                         <tr>
                             <th>Title</th>
-                            <th>Client</th>
+                            <th>Body</th>
                             <th>Date</th>
                             <th>Status</th>
                             <th>Actions</th>
@@ -52,7 +58,7 @@
                         @foreach ($tickets as $ticket)
                         <tr>
                             <td>{{ $ticket->title }}</td>
-                            <td><a href="{{ route("client.show", $ticket->client_id) }}" class="text-decoration-none text-reset">{{ $ticket->client->name }}</a></td>
+                            <td>{{ $ticket->body }}</td>
                             <td>{{ $ticket->created_at->format('d M Y H:i:s') }}</td>
                             <td>
                                 @if ($ticket->status == 'pending')
@@ -64,9 +70,9 @@
                                 @endif
                             </td>
                             <td>
-                                <a class="btn btn-datatable btn-icon btn-transparent-dark me-2" href="{{ route('ticket.edit', $ticket->id) }}"><i data-feather="edit"></i></a>
-                                <a class="btn btn-datatable btn-icon btn-transparent-dark" href="{{ route('ticket.destroy', $ticket->id) }}" onclick="event.preventDefault(); document.getElementById('delete-ticket-{{ $ticket->id }}').submit();"><i data-feather="trash-2"></i></a>
-                                <form id="delete-ticket-{{ $ticket->id }}" action="{{ route('ticket.destroy', $ticket->id) }}" method="POST" style="display: none;">
+                                <a class="btn btn-datatable btn-icon btn-transparent-dark me-2" href=""><i data-feather="edit"></i></a>
+                                <a class="btn btn-datatable btn-icon btn-transparent-dark" href="" onclick="event.preventDefault(); document.getElementById('delete-ticket-{{ $ticket->id }}').submit();"><i data-feather="trash-2"></i></a>
+                                <form id="delete-ticket-{{ $ticket->id }}" action="" method="POST" style="display: none;">
                                     @csrf
                                     @method('DELETE')
                                 </form>

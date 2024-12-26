@@ -6,6 +6,7 @@ use App\Models\Ticket;
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
 use App\Models\Client;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class TicketController extends Controller
@@ -56,21 +57,6 @@ class TicketController extends Controller
         return redirect()->route('ticket.index')->with('success', 'Ticket created successfully.');
     }
 
-    public function checkMyTicket()
-    {
-        $client = Auth::guard('client')->user();
-
-        if (!$client) {
-            return redirect()->back()->withErrors(['client' => 'Client not found for the authenticated user.']);
-        }
-
-        $tickets = Ticket::where('client_id', $client->id)->get();
-
-        return view('ticket.checkMyTicket', [
-            'tickets' => $tickets
-        ]);
-    }
-
     /**
      * Display the specified resource.
      */
@@ -111,4 +97,54 @@ class TicketController extends Controller
     {
         //
     }
+
+    public function checkMyTicket()
+    {
+        $client = Auth::guard('client')->user();
+
+        if (!$client) {
+            return redirect()->back()->withErrors(['client' => 'Client not found for the authenticated user.']);
+        }
+
+        $tickets = Ticket::where('client_id', $client->id)->get();
+
+        return view('ticket.checkMyTicket', [
+            'tickets' => $tickets
+        ]);
+    }
+
+    public function createMyTicket()
+    {
+        return view('ticket.createMyTicket');
+    }
+
+    public function storeMyTicket(Request $request)
+    {
+        // Get the authenticated client
+        $client = Auth::guard('client')->user();
+
+        // Handle unauthorized access if client is not authenticated
+        if (!$client) {
+            return redirect()->back()->withErrors(['client' => 'Client not found for the authenticated user.']);
+        }
+
+        // Validate the request
+        $request->validate([
+            'title' => 'required|string',
+            'body' => 'required|string',
+            'status' => 'in:pending,in_progress,completed',
+        ]);
+
+        // Create a new ticket
+        Ticket::create([
+            'title' => $request->input('title'),
+            'body' => $request->input('body'),
+            'status' => 'pending',
+            'client_id' => $client->id,
+        ]);
+
+        // Redirect to checkMyTicket with success message
+        return redirect()->route('ticket.checkMyTicket')->with('success', 'Ticket created successfully.');
+    }
+
 }

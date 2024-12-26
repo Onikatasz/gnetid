@@ -25,7 +25,12 @@ Route::prefix('/client')->group(function () {
     Route::post('/logout', [ClientController::class, 'logout'])->name('client.logout');
 
     Route::get('/dashboard', [ClientController::class, 'dashboard'])->name('client.dashboard');
-    Route::get('/ticket', [TicketController::class, 'checkMyTicket'])->name('client.checkMyTicket');
+    
+    Route::prefix('/ticket')->group(function () {
+        Route::get('/', [TicketController::class, 'checkMyTicket'])->name('ticket.checkMyTicket');
+        Route::get('/create', [TicketController::class, 'createMyTicket'])->name('ticket.createMyTicket');
+        Route::post('/store', [TicketController::class, 'storeMyTicket'])->name('ticket.storeMyTicket');
+    });
 });
 
 Route::middleware(['auth'])->group(function () {

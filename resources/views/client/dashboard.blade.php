@@ -21,7 +21,7 @@
                         </div>
                     </div>
                     <div class="card-footer bg-transparent px-5 py-4">
-                        <div class="small text-center"><a class="btn btn-block btn-primary" href="multi-tenant-create.html">Create new ticket</a></div>
+                        <div class="small text-center"><a class="btn btn-block btn-primary" href="{{ route('ticket.createMyTicket') }}">Create new ticket</a></div>
                     </div>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <div class="card-footer bg-transparent px-5 py-4">
-                        <div class="small text-center"><a class="btn btn-block btn-secondary" href="{{ route('client.checkMyTicket') }}">Check ticket</a></div>
+                        <div class="small text-center"><a class="btn btn-block btn-secondary" href="{{ route('ticket.checkMyTicket') }}">Check ticket</a></div>
                     </div>
                 </div>
             </div>
