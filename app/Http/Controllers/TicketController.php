@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ticket;
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
+use App\Models\Client;
 
 class TicketController extends Controller
 {
@@ -25,7 +26,11 @@ class TicketController extends Controller
      */
     public function create()
     {
-        //
+        $clients = Client::all();
+
+        return view('ticket.create', [
+            'clients' => $clients
+        ]);
     }
 
     /**
@@ -33,7 +38,21 @@ class TicketController extends Controller
      */
     public function store(StoreTicketRequest $request)
     {
-        //
+
+        $client = Client::find($request->input('client_id'));
+
+        if (!$client) {
+            return redirect()->back()->withErrors(['client_id' => 'Client not found.']);
+        }
+
+        Ticket::create([
+            'title' => $request->input('title'),
+            'body' => $request->input('body'),
+            'status' => $request->input('status'),
+            'client_id' => $client->id,
+        ]);
+
+        return redirect()->route('ticket.index')->with('success', 'Ticket created successfully.');
     }
 
     /**
