@@ -51,7 +51,7 @@
                     <tbody>
                         @foreach ($tickets as $ticket)
                         <tr>
-                            <td>{{ $ticket->title }}</td>
+                            <td><a href="{{ route("ticket.show", $ticket->id) }}" class="text-decoration-none text-reset">{{ $ticket->title }}</a></td>
                             <td><a href="{{ route("client.show", $ticket->client_id) }}" class="text-decoration-none text-reset">{{ $ticket->client->name }}</a></td>
                             <td>{{ $ticket->created_at->format('d M Y H:i:s') }}</td>
                             <td>

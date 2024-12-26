@@ -76,7 +76,9 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        //
+        return view('ticket.show', [
+            'ticket' => $ticket
+        ]);
     }
 
     /**
@@ -92,7 +94,14 @@ class TicketController extends Controller
      */
     public function update(UpdateTicketRequest $request, Ticket $ticket)
     {
-        //
+        $ticket->update([
+            'title' => $request->input('title'),
+            'body' => $request->input('body'),
+            'status' => $request->input('status'),
+            'client_id' => $request->input('client_id'),
+        ]);
+
+        return redirect()->route('ticket.index')->with('success', 'Ticket updated successfully.');
     }
 
     /**
