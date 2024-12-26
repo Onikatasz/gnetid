@@ -34,6 +34,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('/client')->group(function () {
         Route::get('/', [ClientController::class, 'index'])->name('client.index');
+        Route::get('/search', [ClientController::class, 'searchByPhoneOrName'])->name('client.searchByPhoneOrName');
         Route::get('/create', [ClientController::class, 'create'])->name('client.create');
         Route::post('/store', [ClientController::class, 'store'])->name('client.store');
         Route::get('/{client}', [ClientController::class, 'show'])->name('client.show');

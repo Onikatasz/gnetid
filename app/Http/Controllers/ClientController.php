@@ -113,6 +113,19 @@ class ClientController extends Controller
         return redirect()->route('client.index')->with('success', 'Client deleted successfully.');
     }
 
+    public function searchByPhoneOrName(Request $request)
+    {
+        $query = $request->input('q');
+
+        // Search for clients by phone or name
+        $clients = Client::where('phone', 'like', "%$query%")
+            ->orWhere('name', 'like', "%$query%")
+            ->get(['id', 'name', 'phone']);
+
+        return response()->json($clients);
+    }
+
+
     public function showLoginClientForm()
     {
         if (Auth::guard('client')->check()) {
