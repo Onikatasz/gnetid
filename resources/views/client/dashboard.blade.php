@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <div class="card-footer bg-transparent px-5 py-4">
-                        <div class="small text-center"><a class="btn btn-block btn-secondary" href="multi-tenant-join.html">Check ticket</a></div>
+                        <div class="small text-center"><a class="btn btn-block btn-secondary" href="{{ route('client.checkMyTicket') }}">Check ticket</a></div>
                     </div>
                 </div>
             </div>

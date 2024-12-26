@@ -25,6 +25,7 @@ Route::prefix('/client')->group(function () {
     Route::post('/logout', [ClientController::class, 'logout'])->name('client.logout');
 
     Route::get('/dashboard', [ClientController::class, 'dashboard'])->name('client.dashboard');
+    Route::get('/ticket', [TicketController::class, 'checkMyTicket'])->name('client.checkMyTicket');
 });
 
 Route::middleware(['auth'])->group(function () {

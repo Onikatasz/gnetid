@@ -6,6 +6,7 @@ use App\Models\Ticket;
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
 use App\Models\Client;
+use Illuminate\Support\Facades\Auth;
 
 class TicketController extends Controller
 {
@@ -53,6 +54,21 @@ class TicketController extends Controller
         ]);
 
         return redirect()->route('ticket.index')->with('success', 'Ticket created successfully.');
+    }
+
+    public function checkMyTicket()
+    {
+        $client = Auth::guard('client')->user();
+
+        if (!$client) {
+            return redirect()->back()->withErrors(['client' => 'Client not found for the authenticated user.']);
+        }
+
+        $tickets = Ticket::where('client_id', $client->id)->get();
+
+        return view('ticket.checkMyTicket', [
+            'tickets' => $tickets
+        ]);
     }
 
     /**
