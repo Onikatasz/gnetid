@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->constrained();
-            $table->foreignId('subscription_plan_id')->constrained();
+            $table->foreignId('client_id')->constrained('clients')->onDelete('cascade');
+            $table->foreignId('subscription_plan_id')->constrained('subscription_plans')->onDelete('cascade');;
             $table->timestamp('end_date')->nullable();  // Use timestamp instead of date
             $table->timestamps();
         });

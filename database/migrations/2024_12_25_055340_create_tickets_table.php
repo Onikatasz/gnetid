@@ -23,7 +23,7 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->constrained();
+            $table->foreignId('client_id')->constrained('clients')->onDelete('cascade');
             $table->string('title');
             $table->text('body');
             $table->enum('status', ['pending', 'in_progress', 'completed']);
