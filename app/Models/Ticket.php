@@ -23,6 +23,7 @@ class Ticket extends Model
         'title',
         'body',
         'status',
+        'client_id',
     ];
 
     public function client()
