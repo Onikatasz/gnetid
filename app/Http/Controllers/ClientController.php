@@ -20,7 +20,9 @@ class ClientController extends Controller
         $currentDate = Carbon::now();
 
         // Retrieve all clients with subscriptions (if any)
-        $clients = Client::with('subscriptions')->get();
+        $clients = Client::with(['subscriptions' => function($query) {
+            $query->select('id', 'client_id', 'subscription_plan_id', 'username', 'password', 'start_date', 'end_date');
+        }])->get();
 
         // Filter clients with valid subscriptions
         $clientsWithValidSubscriptions = Client::whereHas('subscriptions', function($query) use ($currentDate) {
@@ -29,6 +31,15 @@ class ClientController extends Controller
 
         // Retrieve all subscriptions
         $subscriptionsClient = Subscription::all();
+
+        // Decrypt passwords
+        foreach ($subscriptionsClient as $subscription) {
+            try {
+                $subscription->decrypted_password = decrypt($subscription->password);
+            } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+                $subscription->decrypted_password = 'Invalid encryption';
+            }
+        }
 
         return view('client.index', [
             'clients' => $clients,

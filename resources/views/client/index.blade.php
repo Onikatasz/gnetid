@@ -26,34 +26,40 @@
         </div>
     </header>
     <!-- Main page content-->
-    <div class="container-fluid px-4">
+    <div class="container-fluid px-4 text-sm">
         <div class="card">
             <div class="card-body">
                 <table id="datatablesSimple">
                     <thead>
                         <tr>
                             <th>Active</th>
+                            <th>Subscription Id</th>
                             <th>Client</th>
                             <th>Plan</th>
                             <th>Phone Number</th>
                             <th>NIK</th>
                             <th>Address</th>
+                            <th>Start Date</th>
                             <th>End Date</th>
-                            <th>Joined Date</th>
-                            <th>Actions</th>
+                            <th>Username</th>
+                            <th>Password</th>
+                            {{-- <th>Actions</th> --}}
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th>Active</th>
+                            <th>Subscription Id</th>
                             <th>Client</th>
                             <th>Plan</th>
                             <th>Phone Number</th>
                             <th>NIK</th>
                             <th>Address</th>
+                            <th>Start Date</th>
                             <th>End Date</th>
-                            <th>Joined Date</th>
-                            <th>Actions</th>
+                            <th>Username</th>
+                            <th>Password</th>
+                            {{-- <th>Actions</th> --}}
                         </tr>
                     </tfoot>
                     <tbody>
@@ -72,6 +78,10 @@
                                     <span class="bg-danger rounded-circle d-inline-block" style="width: 20px; height: 20px;"></span>
                                 @endif
                             </td>
+
+                            <td>
+                                {{ $subscription ? $subscription->id : 'No subscription' }}
+                            </td>
                             
                             <td>
                                 <a href="{{ route('client.show', $client->id) }}" class="text-decoration-none text-reset">
@@ -84,11 +94,23 @@
                             <td>{{ $client->phone }}</td>
                             <td>{{ $client->nik }}</td>
                             <td>{{ $client->address }}</td>
+                            <td data-order="{{ $subscription ? \Carbon\Carbon::parse($subscription->start_date)->timestamp : 0 }}">
+                                {{ $subscription ? \Carbon\Carbon::parse($subscription->start_date)->format('d M Y') : 'No subscription' }}
                             <td data-order="{{ $subscription ? \Carbon\Carbon::parse($subscription->end_date)->timestamp : 0 }}">
-                                {{ $subscription ? \Carbon\Carbon::parse($subscription->end_date)->format('d M Y H:i:s') : 'No subscription' }}
-                            </td>                                                      
-                            <td>{{ $client->created_at->format('d M Y H:i:s') }}</td>
+                                {{ $subscription ? \Carbon\Carbon::parse($subscription->end_date)->format('d M Y') : 'No subscription' }}
+                            </td>
+                            <td>{{ $subscription ? $subscription->username : 'No subscription' }}</td>
                             <td>
+                                @if ($subscription)
+                                    <span class="password-hidden" onclick="togglePassword(this)" data-password="{{ $subscription->decrypted_password }}">
+                                        ••••••••
+                                    </span>
+                                @else
+                                    No subscription
+                                @endif
+                            </td>                                                        
+                                                                               
+                            {{-- <td>
                                 <a class="btn btn-datatable btn-icon btn-transparent-dark me-2" href="{{ route('client.edit', $client->id) }}"><i data-feather="edit"></i></a>
                                 <a class="btn btn-datatable btn-icon btn-transparent-dark" href="{{ route('client.destroy', $client->id) }}" onclick="event.preventDefault(); document.getElementById('delete-client-{{ $client->id }}').submit();"><i data-feather="trash-2"></i></a>
 
@@ -96,7 +118,7 @@
                                     @csrf
                                     @method('DELETE')
                                 </form>
-                            </td>
+                            </td> --}}
                         </tr>
                         @endforeach
                     </tbody>
@@ -104,6 +126,20 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function togglePassword(element) {
+            const isHidden = element.textContent === '••••••••';
+            const password = element.getAttribute('data-password');
+
+            if (isHidden) {
+                element.textContent = password; // Show the password
+            } else {
+                element.textContent = '••••••••'; // Hide the password
+            }
+        }
+    </script>
+    
 </main>
 
 @endsection
