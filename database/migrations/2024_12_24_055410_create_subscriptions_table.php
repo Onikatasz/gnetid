@@ -9,13 +9,29 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+
+    // Schema
+    // subscriptions {
+    //     id int pk
+    //     client_id int fk
+    //     subscription_plan_id int fk
+    //     username varchar unique
+    //     password varchar
+    //     start_date date
+    //     end_date date
+    //   }
+
     public function up(): void
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->constrained('clients')->onDelete('cascade');
-            $table->foreignId('subscription_plan_id')->constrained('subscription_plans')->onDelete('cascade');;
-            $table->timestamp('end_date')->nullable();  // Use timestamp instead of date
+            $table->foreignId('client_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('subscription_plan_id')->constrained()->cascadeOnDelete();
+            $table->string('username')->unique();
+            $table->string('password');
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->date('next_billing_date')->nullable();
             $table->timestamps();
         });
     }
