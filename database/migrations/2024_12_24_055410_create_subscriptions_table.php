@@ -24,7 +24,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('subscriptions', function (Blueprint $table) {
-            $table->id();
+            $table->id()->from(10000000000);
             $table->foreignId('client_id')->constrained()->cascadeOnDelete();
             $table->foreignId('subscription_plan_id')->constrained()->cascadeOnDelete();
             $table->string('username')->unique();

@@ -36,6 +36,8 @@ class SubscriptionFactory extends Factory
         $day = 20;
     
         return [
+            // 'id' with 11 digits number
+            'id' => $this->faker->unique()->numberBetween(10000000000, 99999999999),
             'client_id' => function() {
                 // Ensure client_id is unique
                 return Client::factory()->create()->id;
@@ -44,16 +46,22 @@ class SubscriptionFactory extends Factory
                 // Randomly assign a subscription plan from the existing plans
                 return SubscriptionPlan::inRandomOrder()->first()->id;
             },
-            'username' => $this->faker->unique()->email(),
+            // username are combination id and domain name netgpusat.com, example 10000000000@netgpusat.com
+            'username' => function (array $attributes) {
+                return $attributes['id'] . '@netgpusat.com';
+            },
             'password' => static::$password ??= Hash::make('password'),
             'start_date' => $this->faker->boolean(75) // 75% chance
-                ? $this->faker->dateTimeBetween('+1 month', '+3 month') // From now to +1 month
-                : $this->faker->dateTimeBetween('+1 months', endDate: '+3 month'), // From -3 months to +1 month
+                ? $this->faker->dateTimeBetween('now', '+3 month') // From now to +1 month
+                : $this->faker->dateTimeBetween('-1 months', endDate: '+3 month'), // From -3 months to +1 month
+            // end_date is calculated based on start_date
             'end_date' => function (array $attributes) use ($day) {
                 $startDate = \Carbon\Carbon::parse($attributes['start_date']);
+                // If the day of the month is greater than the day of the month of the start date
                 if ($startDate->day > $day) {
-                    $startDate->addMonthsNoOverflow(1);
+                    $startDate->addMonthsNoOverflow(value: 1);
                 }
+                // Set the day of the month to the minimum of the day of the month and the day
                 $startDate->day(min($day, $startDate->daysInMonth));
                 return $startDate;
             },
