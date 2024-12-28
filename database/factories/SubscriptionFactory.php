@@ -52,7 +52,7 @@ class SubscriptionFactory extends Factory
                 return $attributes['id'] . '@netgpusat.com';
             },
             // random hashed password with length between 8 to 36
-            'password' => Crypt::encryptString($this->faker->password),
+            'password' => Crypt::encryptString($this->faker->regexify('[A-Za-z0-9!@#$%^&*()_+]{8,8}')),
             'start_date' => $this->faker->boolean(75) // 75% chance
                 ? $this->faker->dateTimeBetween('now', '+3 month') // From now to +1 month
                 : $this->faker->dateTimeBetween('-1 months', endDate: '+3 month'), // From -3 months to +1 month
