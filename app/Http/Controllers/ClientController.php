@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateClientRequest;
 use App\Models\Subscription;
 use Carbon\Carbon;
 use App\Models\SubscriptionPlan;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -55,7 +56,8 @@ class ClientController extends Controller
      */
     public function create()
     {
-        return view('client.create');
+        $plans = SubscriptionPlan::all();
+        return view('client.create', compact('plans'));
     }
 
     /**
@@ -63,17 +65,67 @@ class ClientController extends Controller
      */
     public function store(StoreClientRequest $request)
     {
-        // The request is already validated by StoreClientRequest
+        // Validate data from StoreClientRequest
+        
+        // Check for duplicate phone
+        if($request->input('phone')) {
+            $client = Client::where('phone', $request->input('phone'))->first();
+            if ($client) {
+                return back()->withInput($request->only('name', 'nik', 'phone', 'address'))
+                    ->with('error', 'Phone number already registered.');
+            }
+        }
     
-        // Create the new client and store in the database
-        Client::create([
+        // Check for duplicate NIK
+        if($request->input('nik')) {
+            $client = Client::where('nik', $request->input('nik'))->first();
+            if ($client) {
+                return back()->withInput($request->only('name', 'nik', 'phone', 'address'))
+                    ->with('error', 'NIK already registered.');
+            }
+        }
+    
+        // Create the client
+        $client = Client::create([
             'name' => $request->input('name'),
             'nik' => $request->input('nik'),
             'phone' => $request->input('phone'),
             'address' => $request->input('address'),
         ]);
     
-        // Redirect to the clients index page with a success message
+        // Compute end_date based on the start_date and $day
+        $day = 20;
+        $startDate = Carbon::parse($request->input('start_date'));
+        if ($startDate->day > $day) {
+            $startDate->addMonthNoOverflow();
+        }
+        $startDate->day(min($day, $startDate->daysInMonth));
+        $endDate = $startDate;
+        $billingDate = $endDate->addMonthNoOverflow();
+    
+        // Create subscription
+        $subscription = Subscription::create([
+            'client_id' => $client->id,
+            'subscription_plan_id' => $request->input('subscription_plan_id'),
+            'username' => $client->id . '@netgpusat.com',
+            'password' => Crypt::encryptString(Str::password(8)),
+            'start_date' => $request->input('start_date'),
+            'end_date' => $endDate,
+            'next_billing_date' => $billingDate,
+        ]);
+
+        $subscription->update([
+            'username' => $subscription->id .'@netgpusat.com',
+        ]);
+    
+        // Handle subscription creation failure
+        if (!$subscription) {
+            $client->delete();
+            return back()->withInput($request->only('name', 'nik', 'phone', 'address'))
+                ->with('error', 'Failed to create subscription.');
+        }
+    
+        // Redirect with success message
         return redirect()->route('client.index')->with('success', 'Client created successfully.');
     }
     
@@ -127,7 +179,6 @@ class ClientController extends Controller
                 'subscription_plan_id' => $request->input('subscription_plan_id'),
                 'username' => $request->input('username'),
                 'password' => $encrypted_password,
-                'start_date' => $request->input('start_date'),
             ]);
         }
         

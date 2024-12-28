@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Client Add')
+@section('title', 'Create Client')
 
 @section('content')
 
@@ -11,67 +11,105 @@
                 <div class="row align-items-center justify-content-between pt-3">
                     <div class="col-auto mb-3">
                         <h1 class="page-header-title">
-                            <div class="page-header-icon"><i data-feather="user-plus"></i></div>
-                            Add Client
+                            <div class="page-header-icon"><i data-feather="user"></i></div>
+                            Create Client
                         </h1>
-                    </div>
-                    <div class="col-12 col-xl-auto mb-3">
-                        <a class="btn btn-sm btn-light text-primary" href="{{ route('client.index') }}">
-                            <i class="me-1" data-feather="arrow-left"></i>
-                            Back to Clients List
-                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </header>
-
-    <!-- Main page content -->
+    <!-- Main page content-->
     <div class="container-xl px-4 mt-4">
-        <div class="row justify-content-center">
-            <div class="col-xl-8">
-                <!-- Client details card -->
+        <!-- Account page navigation-->
+        <nav class="nav nav-borders">
+            <a class="nav-link active ms-0" href="javascript:void(0)" id="profile-tab">Profile</a>
+            <a class="nav-link" href="javascript:void(0)" id="internet-tab">Internet And Hardware</a>
+            <a class="nav-link" href="javascript:void(0)">Billing</a>
+            <a class="nav-link" href="javascript:void(0)">Other</a>
+        </nav>
+        <hr class="mt-0 mb-4" />
+        <div class="row">
+            <div class="col-xl-8 mx-auto">
+                <!-- Account details card-->
                 <div class="card mb-4">
                     <div class="card-header">Client Details</div>
                     <div class="card-body">
                         <!-- Form Start -->
-                        <form method="POST" action="{{ route('client.store') }}">
+                        <form action="{{ route('client.store') }}" method="POST">
                             @csrf
-                            <!-- Name -->
-                            <div class="mb-3">
-                                <label class="small mb-1" for="name">Name</label>
-                                <input class="form-control" id="name" type="text" name="name" value="{{ old('name') }}" required>
+                            <!-- Profile Section -->
+                            <div id="profile-section">
+                                <!-- Form Group (name) -->
+                                <div class="mb-3">
+                                    <label class="small mb-1" for="inputUsername">Name</label>
+                                    <input class="form-control" id="inputUsername" name="name" type="text" placeholder="Enter your username" required/>
+                                </div>
+
+                                <!-- Form Row -->
+                                <div class="row gx-3 mb-3">
+                                    <!-- Form Group (phone number) -->
+                                    <div class="col-md-6">
+                                        <label class="small mb-1" for="inputPhone">Phone number</label>
+                                        <input class="form-control" id="inputPhone" name="phone" type="tel" placeholder="Enter your phone number" required/>
+                                    </div>
+                                    <!-- Form Group (NIK) -->
+                                    <div class="col-md-6">
+                                        <label class="small mb-1" for="inputNik">NIK</label>
+                                        <input class="form-control" id="inputNik" name="nik" type="text" placeholder="Enter NIK" required/>
+                                    </div>
+                                </div>
+
+                                <!-- Form Group (address) -->
+                                <div class="mb-3">
+                                    <label class="small mb-1" for="inputAddress">Address</label>
+                                    <input class="form-control" id="inputAddress" name="address" type="text" placeholder="Enter your address" required/>
+                                </div>
                             </div>
 
-                            <!-- NIK -->
-                            <div class="mb-3">
-                                <label class="small mb-1" for="nik">NIK</label>
-                                <input class="form-control" id="nik" type="text" name="nik" value="{{ old('nik') }}" required>
+                            <!-- Internet Section -->
+                            <div id="internet-section" style="display:none;">
+                                <!-- Subscription Plan -->
+                                <div class="mb-3">
+                                    <label class="small mb-1" for="inputPlan">Subscription Plan</label>
+                                    <select class="form-control" id="inputPlan" name="subscription_plan_id">
+                                        @foreach($plans as $plan)
+                                            <option value="{{ $plan->id }}">{{ $plan->title }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <!-- Start Date -->
+                                <div class="mb-3">
+                                    <label class="small mb-1" for="inputStartDate">Start Date</label>
+                                    <input class="form-control" id="inputStartDate" name="start_date" type="date" required/>
+                                </div>
                             </div>
 
-                            <!-- Phone -->
-                            <div class="mb-3">
-                                <label class="small mb-1" for="phone">Phone Number</label>
-                                <input class="form-control" id="phone" type="text" name="phone" value="{{ old('phone') }}" required>
-                            </div>
-
-                            <!-- Address -->
-                            <div class="mb-3">
-                                <label class="small mb-1" for="address">Address</label>
-                                <textarea class="form-control" id="address" name="address" rows="3" required>{{ old('address') }}</textarea>
-                            </div>
-
-                            <!-- Submit button -->
-                            <div class="mt-3">
-                                <button class="btn btn-primary" type="submit">Add Client</button>
-                            </div>
+                            <!-- Save changes button -->
+                            <button class="btn btn-primary" type="submit">Create Client</button>
                         </form>
-                        <!-- Form End -->
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </main>
+
+<script>
+    document.getElementById('profile-tab').addEventListener('click', function() {
+        document.getElementById('profile-section').style.display = 'block';
+        document.getElementById('internet-section').style.display = 'none';
+        document.getElementById('profile-tab').classList.add('active');
+        document.getElementById('internet-tab').classList.remove('active');
+    });
+
+    document.getElementById('internet-tab').addEventListener('click', function() {
+        document.getElementById('profile-section').style.display = 'none';
+        document.getElementById('internet-section').style.display = 'block';
+        document.getElementById('internet-tab').classList.add('active');
+        document.getElementById('profile-tab').classList.remove('active');
+    });
+</script>
 
 @endsection
