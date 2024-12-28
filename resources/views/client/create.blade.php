@@ -86,7 +86,7 @@
                             </div>
 
                             <!-- Save changes button -->
-                            <button class="btn btn-primary" type="submit">Create Client</button>
+                            <button class="btn btn-primary" type="submit" onclick="checkTabAndSubmit(event)">Create Client</button>
                         </form>
 
                     </div>
@@ -110,6 +110,38 @@
         document.getElementById('internet-tab').classList.add('active');
         document.getElementById('profile-tab').classList.remove('active');
     });
+
+    function checkTabAndSubmit(event) {
+        event.preventDefault();
+        let profileSection = document.getElementById('profile-section');
+        let internetSection = document.getElementById('internet-section');
+        let profileInputs = profileSection.querySelectorAll('input[required]');
+        let internetInputs = internetSection.querySelectorAll('input[required], select[required]');
+        let profileValid = Array.from(profileInputs).every(input => input.checkValidity());
+        let internetValid = Array.from(internetInputs).every(input => input.checkValidity());
+
+        if (!profileValid) {
+            document.getElementById('profile-tab').click();
+            profileInputs.forEach(input => {
+                if (!input.checkValidity()) {
+                    input.focus();
+                    input.reportValidity();
+                    return false;
+                }
+            });
+        } else if (!internetValid) {
+            document.getElementById('internet-tab').click();
+            internetInputs.forEach(input => {
+                if (!input.checkValidity()) {
+                    input.focus();
+                    input.reportValidity();
+                    return false;
+                }
+            });
+        } else {
+            event.target.closest('form').submit();
+        }
+    }
 </script>
 
 @endsection
