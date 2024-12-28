@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Client;
 use App\Models\SubscriptionPlan;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Crypt;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Subscription>
@@ -50,7 +51,8 @@ class SubscriptionFactory extends Factory
             'username' => function (array $attributes) {
                 return $attributes['id'] . '@netgpusat.com';
             },
-            'password' => static::$password ??= Hash::make('password'),
+            // random hashed password with length between 8 to 36
+            'password' => Crypt::encryptString($this->faker->password),
             'start_date' => $this->faker->boolean(75) // 75% chance
                 ? $this->faker->dateTimeBetween('now', '+3 month') // From now to +1 month
                 : $this->faker->dateTimeBetween('-1 months', endDate: '+3 month'), // From -3 months to +1 month

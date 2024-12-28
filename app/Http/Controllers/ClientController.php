@@ -9,6 +9,7 @@ use App\Models\Subscription;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class ClientController extends Controller
 {
@@ -35,10 +36,10 @@ class ClientController extends Controller
         // Decrypt passwords
         foreach ($subscriptionsClient as $subscription) {
             try {
-                $subscription->decrypted_password = decrypt($subscription->password);
-            } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
-                $subscription->decrypted_password = 'Invalid encryption';
-            }
+                $subscription->decrypted_password = Crypt::decryptString($subscription->password);
+                } catch (\Exception $e) {
+                $subscription->decrypted_password = "Error decrypting password";
+                }
         }
 
         return view('client.index', [
