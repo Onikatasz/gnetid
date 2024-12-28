@@ -7,6 +7,7 @@ use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Models\Subscription;
 use Carbon\Carbon;
+use App\Models\SubscriptionPlan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -82,7 +83,12 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
-        return view('client.show', compact(var_name: 'client'));
+        $plans = SubscriptionPlan::all();
+        $subscription = Subscription::where('client_id', $client->id)->first();
+
+        $subscription->decrypted_password = Crypt::decryptString($subscription->password);
+
+        return view('client.show', compact('client', 'subscription', 'plans'));
     }
 
     /**
@@ -99,14 +105,31 @@ class ClientController extends Controller
     public function update(UpdateClientRequest $request, Client $client)
     {
         // The request is already validated by UpdateClientRequest
-    
-        // Update the client with the new data
+
+        // Update the client
         $client->update([
             'name' => $request->input('name'),
             'nik' => $request->input('nik'),
             'phone' => $request->input('phone'),
             'address' => $request->input('address'),
         ]);
+
+        $subscription = Subscription::where('client_id', $client->id)->first();
+
+        if ($request->input('password')) {
+            $encrypted_password = Crypt::encryptString($request->input('password'));
+        } else {
+            $encrypted_password = $subscription->password;
+        }
+
+        if ($subscription) {
+            $subscription->update([
+                'subscription_plan_id' => $request->input('subscription_plan_id'),
+                'username' => $request->input('username'),
+                'password' => $encrypted_password,
+                'start_date' => $request->input('start_date'),
+            ]);
+        }
         
     
         // Redirect to the clients index page with a success message

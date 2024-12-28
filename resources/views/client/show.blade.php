@@ -4,7 +4,6 @@
 
 @section('content')
 
-
 <main>
     <header class="page-header page-header-compact page-header-light border-bottom bg-white mb-4">
         <div class="container-xl px-4">
@@ -24,10 +23,10 @@
     <div class="container-xl px-4 mt-4">
         <!-- Account page navigation-->
         <nav class="nav nav-borders">
-            <a class="nav-link active ms-0" href="">Profile</a>
-            <a class="nav-link" href="">Internet And Hardware</a>
-            <a class="nav-link" href="">Billing</a>
-            <a class="nav-link" href="">Other</a>
+            <a class="nav-link active ms-0" href="javascript:void(0)" id="profile-tab">Profile</a>
+            <a class="nav-link" href="javascript:void(0)" id="internet-tab">Internet And Hardware</a>
+            <a class="nav-link" href="javascript:void(0)">Billing</a>
+            <a class="nav-link" href="javascript:void(0)">Other</a>
         </nav>
         <hr class="mt-0 mb-4" />
         <div class="row">
@@ -40,33 +39,59 @@
                         <form action="{{ route('client.update', $client->id) }}" method="POST">
                             @csrf
                             @method('PUT')
-                        
-                            <!-- Form Group (name) -->
-                            <div class="mb-3">
-                                <label class="small mb-1" for="inputUsername">Name</label>
-                                <input class="form-control" id="inputUsername" name="name" type="text" placeholder="Enter your username" value="{{ $client->name }}" />
-                            </div>
-                        
-                            <!-- Form Row -->
-                            <div class="row gx-3 mb-3">
-                                <!-- Form Group (phone number) -->
-                                <div class="col-md-6">
-                                    <label class="small mb-1" for="inputPhone">Phone number</label>
-                                    <input class="form-control" id="inputPhone" name="phone" type="tel" placeholder="Enter your phone number" value="{{ $client->phone }}" />
+                            
+                            <!-- Profile Section -->
+                            <div id="profile-section">
+                                <!-- Form Group (name) -->
+                                <div class="mb-3">
+                                    <label class="small mb-1" for="inputUsername">Name</label>
+                                    <input class="form-control" id="inputUsername" name="name" type="text" placeholder="Enter your username" value="{{ $client->name }}" />
                                 </div>
-                                <!-- Form Group (NIK) -->
-                                <div class="col-md-6">
-                                    <label class="small mb-1" for="inputNik">NIK</label>
-                                    <input class="form-control" id="inputNik" name="nik" type="text" placeholder="Enter NIK" value="{{ $client->nik }}" />
+
+                                <!-- Form Row -->
+                                <div class="row gx-3 mb-3">
+                                    <!-- Form Group (phone number) -->
+                                    <div class="col-md-6">
+                                        <label class="small mb-1" for="inputPhone">Phone number</label>
+                                        <input class="form-control" id="inputPhone" name="phone" type="tel" placeholder="Enter your phone number" value="{{ $client->phone }}" />
+                                    </div>
+                                    <!-- Form Group (NIK) -->
+                                    <div class="col-md-6">
+                                        <label class="small mb-1" for="inputNik">NIK</label>
+                                        <input class="form-control" id="inputNik" name="nik" type="text" placeholder="Enter NIK" value="{{ $client->nik }}" />
+                                    </div>
+                                </div>
+
+                                <!-- Form Group (address) -->
+                                <div class="mb-3">
+                                    <label class="small mb-1" for="inputAddress">Address</label>
+                                    <input class="form-control" id="inputAddress" name="address" type="text" placeholder="Enter your address" value="{{ $client->address }}" />
                                 </div>
                             </div>
-                        
-                            <!-- Form Group (address) -->
-                            <div class="mb-3">
-                                <label class="small mb-1" for="inputAddress">Address</label>
-                                <input class="form-control" id="inputAddress" name="address" type="text" placeholder="Enter your address" value="{{ $client->address }}" />
+
+                            <!-- Internet Section -->
+                            <div id="internet-section" style="display:none;">
+                                <!-- Subscription Plan -->
+                                <div class="mb-3">
+                                    <label class="small mb-1" for="inputPlan">Subscription Plan</label>
+                                    <select class="form-control" id="inputPlan" name="subscription_plan_id">
+                                        @foreach($plans as $plan)
+                                            <option value="{{ $plan->id }}" {{ $plan->id == $subscription->subscription_plan_id ? 'selected' : '' }}>{{ $plan->title }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <!-- Username -->
+                                <div class="mb-3">
+                                    <label class="small mb-1" for="inputUsername">Username</label>
+                                    <input class="form-control" id="inputUsername" name="username" type="text" placeholder="Enter username" value="{{ $subscription->username }}" />
+                                </div>
+                                <!-- Password -->
+                                <div class="mb-3">
+                                    <label class="small mb-1" for="inputPassword">New Password</label>
+                                    <input class="form-control" id="inputPassword" name="password" type="password" placeholder="Enter password"/>
+                                </div>
                             </div>
-                        
+
                             <!-- Save changes button -->
                             <button class="btn btn-primary" type="submit">Save changes</button>
                             <a class="btn btn-danger" href="{{ route('client.destroy', $client->id) }} ">Delete Client</a>
@@ -78,5 +103,21 @@
         </div>
     </div>
 </main>
+
+<script>
+    document.getElementById('profile-tab').addEventListener('click', function() {
+        document.getElementById('profile-section').style.display = 'block';
+        document.getElementById('internet-section').style.display = 'none';
+        document.getElementById('profile-tab').classList.add('active');
+        document.getElementById('internet-tab').classList.remove('active');
+    });
+
+    document.getElementById('internet-tab').addEventListener('click', function() {
+        document.getElementById('profile-section').style.display = 'none';
+        document.getElementById('internet-section').style.display = 'block';
+        document.getElementById('internet-tab').classList.add('active');
+        document.getElementById('profile-tab').classList.remove('active');
+    });
+</script>
 
 @endsection
