@@ -26,6 +26,8 @@ class StoreClientRequest extends FormRequest
             'nik' => 'required|string|size:16|unique:clients,nik', // Exactly 16 characters and must be unique in 'clients' table
             'phone' => 'required|string|max:20|unique:clients,phone', // Unique phone number with max length 20
             'address' => 'required|string|max:500', // Address is required and cannot exceed 500 characters
+            'latitude' => 'required|numeric', // Latitude must be a number
+            'longitude' => 'required|numeric', // Longitude must be a number
         ];
     }
 

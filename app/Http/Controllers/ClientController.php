@@ -91,6 +91,8 @@ class ClientController extends Controller
             'nik' => $request->input('nik'),
             'phone' => $request->input('phone'),
             'address' => $request->input('address'),
+            'latitude' => $request->input('latitude'),
+            'longitude' => $request->input('longitude'),
         ]);
     
         // Compute end_date based on the start_date and $day
