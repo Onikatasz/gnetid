@@ -18,6 +18,8 @@ class Client extends Authenticatable
     //     name varchar
     //     phone varchar unique
     //     nik varchar
+    //     latitude float
+    //     longitude float
     //   }
 
     protected $fillable = [
@@ -25,6 +27,8 @@ class Client extends Authenticatable
         'phone',
         'nik',
         'address',
+        'latitude',
+        'longitude',
     ];
 
     public function subscriptions()

@@ -11,7 +11,9 @@ return new class extends Migration
     //     id int pk
     //     name varchar
     //     phone varchar unique
-    //     nik varchar uniques
+    //     nik varchar
+    //     latitude float
+    //     longitude float
     //   }
     public function up(): void
     {
@@ -21,6 +23,8 @@ return new class extends Migration
             $table->string('phone')->unique();
             $table->string('nik')->unique();
             $table->string('address');
+            $table->float('latitude');
+            $table->float('longitude');
             $table->timestamps();
         });
     }

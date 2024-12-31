@@ -21,6 +21,8 @@ class ClientFactory extends Factory
             'phone' => $this->faker->unique()->phoneNumber(),
             'nik' => $this->generateNik(),
             'address' => $this->faker->address(),
+            'latitude' => $this->faker->latitude(),
+            'longitude' => $this->faker->longitude(),
         ];
     }
 
