@@ -63,7 +63,7 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach ($clients as $client)
+                        @foreach ($clients->sortByDesc('updated_at')->sortByDesc('id') as $client)
                         <tr>
                             @php
                                 $subscription = $subscriptionsClient->where('client_id', $client->id)->first();

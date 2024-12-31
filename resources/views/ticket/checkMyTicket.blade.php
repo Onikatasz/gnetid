@@ -55,7 +55,7 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach ($tickets as $ticket)
+                        @foreach ($tickets->sortByDesc('updated_at')->sortByDesc('id') as $ticket)
                         <tr>
                             <td>{{ $ticket->title }}</td>
                             <td>{{ $ticket->body }}</td>

@@ -49,7 +49,7 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach ($tickets as $ticket)
+                        @foreach ($tickets->sortByDesc('updated_at')->sortByDesc('id') as $ticket)
                         <tr>
                             <td><a href="{{ route("ticket.show", $ticket->id) }}" class="text-decoration-none text-reset">{{ $ticket->title }}</a></td>
                             <td><a href="{{ route("client.show", $ticket->client_id) }}" class="text-decoration-none text-reset">{{ $ticket->client->name }}</a></td>
