@@ -62,6 +62,39 @@
                                     </div>
                                 </div>
 
+                                <!-- Form Group (Maps and Lat, Long) -->
+                                <div class="mb-3">
+                                    <label class="small mb-1" for="showMaps">Coordinate</label>
+                                    <input disabled class="form-control mb-2" id="showMaps" type="text" placeholder="" value="{{ $client->latitude . ', ' . $client->longitude }}" required/>
+                                    <input type="hidden" id="inputLatitude" name="latitude" value="{{  $client->latitude }}" required>
+                                    <input type="hidden" id="inputLongitude" name="longitude" value="{{  $client->longitude }}" required>
+
+                                    <div id="map" style="height: 300px;"></div>
+
+                                    <script>
+                                        function initMap() {
+                                            const defaultLocation = { lat: {{ $client->latitude }}, lng: {{ $client->longitude }} };
+                                            const map = new google.maps.Map(document.getElementById("map"), {
+                                                zoom: 16,
+                                                center: defaultLocation,
+                                            });
+                                            const marker = new google.maps.Marker({
+                                                position: defaultLocation,
+                                                map,
+                                                truggable: true,
+                                            });
+
+                                            map.addListener("click", (mapsMouseEvent) => {
+                                                // Close the current InfoWindow.
+                                                marker.setPosition(mapsMouseEvent.latLng);
+                                                document.getElementById('showMaps').value = `${mapsMouseEvent.latLng.lat()}, ${mapsMouseEvent.latLng.lng()}`;
+                                                document.getElementById('inputLatitude').value = mapsMouseEvent.latLng.lat();
+                                                document.getElementById('inputLongitude').value = mapsMouseEvent.latLng.lng();
+                                            });
+                                        }
+                                    </script>
+                                </div>
+
                                 <!-- Form Group (address) -->
                                 <div class="mb-3">
                                     <label class="small mb-1" for="inputAddress">Address</label>
