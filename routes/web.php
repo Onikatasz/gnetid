@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\SubscriptionPlanController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\MessageController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -69,5 +70,9 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/{ticket}', [TicketController::class, 'destroy'])->name('ticket.destroy');
     });
 
+    Route::prefix('/message')->group(function () {
+        Route::get('/send-messages-test', [MessageController::class, 'sendMessagesTest'])->name('sendMessagesTest');
+        Route::get('/send-text', [MessageController::class, 'sendText'])->name('sendText');
+    });
     
 });
