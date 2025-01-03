@@ -96,24 +96,18 @@ class ClientController extends Controller
         ]);
     
         // Compute end_date based on the start_date and $day
-        $day = 20;
+        
         $startDate = Carbon::parse($request->input('start_date'));
-        if ($startDate->day > $day) {
-            $startDate->addMonthNoOverflow();
-        }
-        $startDate->day(min($day, $startDate->daysInMonth));
-        $endDate = $startDate;
-        $billingDate = $endDate->addMonthNoOverflow();
+        $endDate = $startDate->copy()->addMonthNoOverflow();
     
         // Create subscription
         $subscription = Subscription::create([
             'client_id' => $client->id,
             'subscription_plan_id' => $request->input('subscription_plan_id'),
-            'username' => $client->id . '@netgpusat.com',
+            'username' => "{$client->id}@netgpusat.com",
             'password' => Crypt::encryptString(Str::password(8)),
             'start_date' => $request->input('start_date'),
             'end_date' => $endDate,
-            'next_billing_date' => $billingDate,
         ]);
 
         $subscription->update([

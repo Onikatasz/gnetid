@@ -31,7 +31,6 @@ return new class extends Migration
             $table->string('password');
             $table->date('start_date');
             $table->date('end_date');
-            $table->date('next_billing_date')->nullable();
             $table->timestamps();
         });
     }

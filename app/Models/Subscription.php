@@ -29,7 +29,6 @@ class Subscription extends Model
         'password',
         'start_date',
         'end_date',
-        'next_billing_date',
     ];
 
     public function client()
