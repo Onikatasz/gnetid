@@ -16,6 +16,7 @@ Route::get('/', function () {
 
 Route::prefix('/subscription')->group(function () {
     Route::get('/payment/{id}', [SubscriptionController::class, 'payment'])->name('subscription.payment');
+    Route::get('/check-payment/{phone}', [SubscriptionController::class, 'checkPaymentDates'])->name('subscription.checkPaymentDates');
 });
 
 // Auth routes

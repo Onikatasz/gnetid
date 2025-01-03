@@ -117,4 +117,29 @@ class SubscriptionController extends Controller
             return response()->json(['message' => 'Subscription not found'], 404);
         }
     }
+
+    public function checkPaymentDates($phone)
+    {
+        if (substr($phone, 0, 1) == '0') {
+            $updatedPhone = '62' . substr($phone, 1);
+        }
+
+        $subscription = Subscription::whereHas('client', function ($query) use ($phone, $updatedPhone) {
+            $query->where('phone', $phone)->orWhere('phone', $updatedPhone);
+        })->first();
+    
+        if ($subscription) {
+            $startDate = Carbon::parse($subscription->start_date);
+            $billingDates = [];
+    
+            for ($i = 0; $i < 12; $i++) {
+                $startDate = $startDate->addMonthNoOverflow();
+                $billingDates[] = thisDayOrLast($startDate, Carbon::parse($subscription->start_date)->day)->toDateString();
+            }
+    
+            return response()->json(['billing_dates' => $billingDates]);
+        }
+    
+        return response()->json(['message' => 'Subscription not found'], 404);
+    }
 }
