@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Subscription;
 use App\Http\Requests\StoreSubscriptionRequest;
 use App\Http\Requests\UpdateSubscriptionRequest;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class SubscriptionController extends Controller
 {
@@ -51,9 +55,20 @@ class SubscriptionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSubscriptionRequest $request, Subscription $subscription)
+    public function update(Request $request, $id)
     {
-        //
+        $subscription = Subscription::find($id);
+
+        if (!$subscription) {
+            return response()->json(['message' => 'Subscription not found'], 404);
+        }
+
+        try {
+            $subscription->update($request->all());
+            return response()->json(['message' => 'Subscription updated successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to update subscription', 'error' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -62,5 +77,44 @@ class SubscriptionController extends Controller
     public function destroy(Subscription $subscription)
     {
         //
+    }
+
+    public function payment($id)
+    {
+        // Decrypt the ID
+        $id = Crypt::decryptString($id);
+
+        // Log in as a specific user (e.g., user with ID 1)
+        Auth::loginUsingId(1);
+
+        // Find the subscription by ID
+        $subscription = Subscription::find($id);
+
+        if ($subscription) {
+            // Get the current end date
+            $startDate = Carbon::parse($subscription->start_date);
+            $endDate = Carbon::parse($subscription->end_date);
+
+            // Calculate the new end date using the helper
+            $newEndDate = thisDayOrLast($endDate->addMonthNoOverflow(), $startDate->day);
+
+            // Prepare the data for updating the subscription
+            $data = [
+                'subscription_plan_id' => $subscription->subscription_plan_id,
+                'start_date' => $subscription->end_date,
+                'end_date' => $newEndDate->toDateString(),
+            ];
+
+            // Call the update function
+            $response = $this->update(new Request($data), $id);
+
+            if ($response->getStatusCode() == 200) {
+                return response()->json(['message' => 'Subscription updated successfully'], 200);
+            } else {
+                return response()->json(['message' => 'Failed to update subscription'], 500);
+            }
+        } else {
+            return response()->json(['message' => 'Subscription not found'], 404);
+        }
     }
 }
