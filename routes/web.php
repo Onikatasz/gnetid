@@ -13,13 +13,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('/message')->group(function () {
-    Route::get('/send-messages-test', [MessageController::class, 'sendMessagesTest'])->name('message.sendMessagesTest');
-    Route::get('/send-text', [MessageController::class, 'showSendTextForm'])->name('message.showSendTextForm');
-    Route::post('/send-text', [MessageController::class, 'sendText'])->name('message.sendText');
-    Route::post('/send-broadcast', [MessageController::class, 'sendBroadcast'])->name(name: 'message.sendBroadcast');
-});
-
 // Auth routes
 Route::prefix('/auth')->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('showLoginForm');
@@ -75,6 +68,14 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{ticket}/edit', [TicketController::class, 'edit'])->name('ticket.edit');
         Route::put('/{ticket}', [TicketController::class, 'update'])->name('ticket.update');
         Route::delete('/{ticket}', [TicketController::class, 'destroy'])->name('ticket.destroy');
+    });
+
+    Route::prefix('/message')->group(function () {
+        Route::get('/send-messages-test', [MessageController::class, 'sendMessagesTest'])->name('message.sendMessagesTest');
+        Route::get('/send-text', [MessageController::class, 'showSendTextForm'])->name('message.showSendTextForm');
+        Route::post('/send-text', [MessageController::class, 'sendText'])->name('message.sendText');
+        Route::get('/send-broadcast', [MessageController::class, 'showSendBroadcastForm'])->name('message.showSendBroadcastForm');
+        Route::post('/send-broadcast', [MessageController::class, 'sendBroadcast'])->name(name: 'message.sendBroadcast');
     });
     
 });

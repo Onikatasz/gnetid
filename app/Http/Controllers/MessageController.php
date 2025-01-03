@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
+use PhpParser\Builder\Function_;
 
 class MessageController extends Controller
 {
@@ -45,6 +46,13 @@ class MessageController extends Controller
     
     public function sendText(Request $request)
     {
+        // Validate incoming request
+        $request->validate([
+            'session' => 'required|string',
+            'phone' => 'required|string',
+            'text' => 'required|string',
+        ]);
+
         // Check if phone number doesn have country code then change the first example is 0 to default is 62
         $phone = $request->input('phone');
         if (substr($phone, 0, 1) == '0') {
@@ -71,5 +79,61 @@ class MessageController extends Controller
 
 
         return response()->json(['status' => 'Message sent'], 200);
+    }
+
+    public function showSendBroadcastForm()
+    {
+        $response = Http::get("http://localhost:5001/session");
+
+        return view('message.sendBroadcast', json_decode($response->body(), true));
+    }
+
+    public function sendBroadcast(Request $request)
+    {
+        // Validate incoming request
+        $request->validate([
+            'session' => 'required|string',
+            'phones' => 'required|array',
+            'text' => 'required|string',
+            'delay' => 'nullable|integer|min:1', // Optional delay (default 5 seconds)
+        ]);
+
+        // Check if phone number doesn have country code then change the first example is 0 to default is 62
+        $phones = $request->input('phones');
+        foreach ($phones as $key => $phone) {
+            if (substr($phone, 0, 1) == '0') {
+                $phones[$key] = '62' . substr($phone, 1);
+            }
+        }
+
+        $session = $request->input('session');
+        $text = $request->input('text');
+        $delay = $request->input('delay', 5); // Default delay is 5 seconds
+
+        foreach ($phones as $phone) {
+            try {
+                // Send HTTP GET request
+                $response = Http::post("http://localhost:5001/message/send-text", [
+                    'session' => $session,
+                    'to' => $phone,
+                    'text' => $text,
+                ]);
+
+                // Log the response
+                if ($response->successful()) {
+                    Log::info("Message sent to $phone: " . $response->body());
+                } else {
+                    Log::error("Failed to send message to $phone: " . $response->body());
+                }
+
+                // Delay before sending the next message
+                sleep($delay);
+
+            } catch (\Exception $e) {
+                Log::error("Error sending message to $phone: " . $e->getMessage());
+            }
+        }
+
+        return response()->json(['status' => 'Broadcast completed']);
     }
 }
