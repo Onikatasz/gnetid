@@ -39,10 +39,10 @@
                 </div>
                 <!-- Sidenav Heading (Custom)-->
                 <div class="sidenav-menu-heading">Custom</div>
-                <!-- Sidenav Accordion (Pages)-->
+                <!-- Sidenav Accordion (Admin)-->
                 <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                    <div class="nav-link-icon"><i data-feather="grid"></i></div>
-                    Pages
+                    <div class="nav-link-icon"><i data-feather="user"></i></div>
+                    Admin
                     <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
                 <div class="collapse" id="collapsePages" data-bs-parent="#accordionSidenav">
@@ -114,13 +114,13 @@
                         <a class="nav-link" href="invoice.html">Invoice</a>
                     </nav>
                 </div>
-                <!-- Sidenav Accordion (Applications)-->
-                <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseApps" aria-expanded="false" aria-controls="collapseApps">
-                    <div class="nav-link-icon"><i data-feather="globe"></i></div>
-                    Applications
+                <!-- Sidenav Accordion (Management)-->
+                <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseManage" aria-expanded="false" aria-controls="collapseManage">
+                    <div class="nav-link-icon"><i data-feather="grid"></i></div>
+                    Management
                     <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
-                <div class="collapse" id="collapseApps" data-bs-parent="#accordionSidenav">
+                <div class="collapse" id="collapseManage" data-bs-parent="#accordionSidenav">
                     <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavAppsMenu">
                         <!-- Nested Sidenav Accordion (Apps -> User Management)-->
                         <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#appsCollapseUserManagement" aria-expanded="false" aria-controls="appsCollapseUserManagement">
@@ -156,16 +156,16 @@
                         </div>
                     </nav>
                 </div>
-                <!-- Sidenav Accordion (Flows)-->
-                <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFlows" aria-expanded="false" aria-controls="collapseFlows">
-                    <div class="nav-link-icon"><i data-feather="repeat"></i></div>
-                    Flows
+                <!-- Sidenav Accordion (Messages)-->
+                <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseMessages" aria-expanded="false" aria-controls="collapseMessages">
+                    <div class="nav-link-icon"><i data-feather="message-square"></i></div>
+                    Messages
                     <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
-                <div class="collapse" id="collapseFlows" data-bs-parent="#accordionSidenav">
+                <div class="collapse" id="collapseMessages" data-bs-parent="#accordionSidenav">
                     <nav class="sidenav-menu-nested nav">
-                        <a class="nav-link" href="multi-tenant-select.html">Multi-Tenant Registration</a>
-                        <a class="nav-link" href="wizard.html">Wizard</a>
+                        <a class="nav-link" href="{{ route('message.sendText') }}">Send a Text</a>
+                        <a class="nav-link" href="{{ route('message.sendBroadcast') }}">Send Broadcast</a>
                     </nav>
                 </div>
                 <!-- Sidenav Heading (UI Toolkit)-->
