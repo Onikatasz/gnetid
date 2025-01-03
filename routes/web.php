@@ -8,9 +8,14 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\SubscriptionPlanController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\SubscriptionController;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::prefix('/subscription')->group(function () {
+    Route::put('/payment/{id}', [SubscriptionController::class, 'payment'])->name('subscription.payment');
 });
 
 // Auth routes
@@ -76,6 +81,12 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/send-text', [MessageController::class, 'sendText'])->name('message.sendText');
         Route::get('/send-broadcast', [MessageController::class, 'showSendBroadcastForm'])->name('message.showSendBroadcastForm');
         Route::post('/send-broadcast', [MessageController::class, 'sendBroadcast'])->name(name: 'message.sendBroadcast');
+        Route::get('/send-billing/{phone}', [MessageController::class, 'sendBillingByText'])->name('message.sendBillingByText');
     });
+
+    Route::prefix('/subscription')->group(function () {
+        Route::put('/{id}', [SubscriptionController::class, 'update'])->name('subscription.update');
+    });
+    
     
 });

@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Http\Request;
 use PhpParser\Builder\Function_;
+use App\Models\Subscription;
 
 class MessageController extends Controller
 {
@@ -135,5 +137,51 @@ class MessageController extends Controller
         }
 
         return response()->json(['status' => 'Broadcast completed']);
+    }
+
+    public function sendBillingByText(Request $request)
+    {
+        $phoneParam = $request->route('phone');
+        $phone = $phoneParam;
+
+        
+        // Check if phone number doesn have country code then change the first example is 0 to default is 62
+        if (substr($phone, 0, 1) == '0') {
+            $updatedPhone = '62' . substr($phone, 1);
+        }
+
+        $subscription = Subscription::whereHas('client', function ($query) use ($phone, $updatedPhone) {
+            $query->where('phone', $phone)->orWhere('phone', $updatedPhone);
+        })->first();
+
+        $session = 'AGOES';
+        if (!$subscription) {
+            return response()->json(['error' => 'Subscription not found'], 404);
+        }
+
+        $amount = $subscription->subscriptionPlan->price;
+        $plan = $subscription->subscriptionPlan->title;
+        $encryptedId = Crypt::encryptString($subscription->id);
+        $payUrl = route('subscription.payment', ['id' => $encryptedId]);
+        $text = "Your $plan subscription fee of Rp " . number_format($amount, 0, ',', '.') . 
+                " has been billed to your account. Please make your payment using the following link: $payUrl. " . 
+                "Thank you for using our service.";
+
+        // Send billing request to the specified number
+        $response = Http::post("http://localhost:5001/message/send-text", [
+            'session' => $session,
+            'to' => $updatedPhone,
+            'text' => $text,
+        ]);
+
+        // Log response
+        if ($response->successful()) {
+            Log::info('Billing request sent successfully: ' . $response->body());
+        } else {
+            Log::error('Failed to send billing request: ' . $response->body());
+            return response()->json(['error' => 'Failed to send billing request'], 500);
+        }
+
+        return response()->json(['status' => 'Billing request sent'], 200);
     }
 }
