@@ -17,6 +17,7 @@ class Subscription extends Model
     //     subscription_plan_id int fk
     //     username varchar unique
     //     password varchar
+    //     subscribe_at date
     //     start_date date
     //     end_date date
     //   }
@@ -27,6 +28,7 @@ class Subscription extends Model
         'subscription_plan_id',
         'username',
         'password',
+        'subscribe_at',
         'start_date',
         'end_date',
     ];

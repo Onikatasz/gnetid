@@ -99,6 +99,7 @@ class ClientController extends Controller
         
         $startDate = Carbon::parse($request->input('start_date'));
         $endDate = $startDate->copy()->addMonthNoOverflow();
+        $subscribe_at = $startDate;
     
         // Create subscription
         $subscription = Subscription::create([
@@ -108,6 +109,7 @@ class ClientController extends Controller
             'password' => Crypt::encryptString(Str::password(8)),
             'start_date' => $request->input('start_date'),
             'end_date' => $endDate,
+            'subscribe_at' => $subscribe_at,
         ]);
 
         $subscription->update([

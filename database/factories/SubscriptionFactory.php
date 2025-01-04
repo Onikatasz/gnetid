@@ -65,6 +65,11 @@ class SubscriptionFactory extends Factory
             'end_date' => function (array $attributes) {
                 return \Carbon\Carbon::parse($attributes['start_date'])->addMonthNoOverflow()->format('Y-m-d');
             },
+
+            // Subscribe at
+            'subscribe_at' => function (array $attributes) {
+                return $attributes['start_date'];
+            },
         ];
     }
 }

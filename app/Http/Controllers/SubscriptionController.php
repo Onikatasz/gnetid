@@ -92,11 +92,11 @@ class SubscriptionController extends Controller
 
         if ($subscription) {
             // Get the current end date
-            $startDate = Carbon::parse($subscription->start_date);
+            $subscribe_at = Carbon::parse($subscription->subscribe_at);
             $endDate = Carbon::parse($subscription->end_date);
 
             // Calculate the new end date using the helper
-            $newEndDate = thisDayOrLast($endDate->addMonthNoOverflow(), $startDate->day);
+            $newEndDate = thisDayOrLast($endDate->addMonthNoOverflow(), $subscribe_at->day);
 
             // Prepare the data for updating the subscription
             $data = [
@@ -130,11 +130,12 @@ class SubscriptionController extends Controller
     
         if ($subscription) {
             $startDate = Carbon::parse($subscription->start_date);
+            $subscribe_at = Carbon::parse($subscription->subscribe_at);
             $billingDates = [];
     
             for ($i = 0; $i < 12; $i++) {
                 $startDate = $startDate->addMonthNoOverflow();
-                $billingDates[] = thisDayOrLast($startDate, Carbon::parse($subscription->start_date)->day)->toDateString();
+                $billingDates[] = thisDayOrLast($startDate, $subscribe_at->day)->toDateString();
             }
     
             return response()->json(['billing_dates' => $billingDates]);

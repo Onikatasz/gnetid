@@ -17,6 +17,7 @@ return new class extends Migration
     //     subscription_plan_id int fk
     //     username varchar unique
     //     password varchar
+    //     subscribe_at date
     //     start_date date
     //     end_date date
     //   }
@@ -29,6 +30,7 @@ return new class extends Migration
             $table->foreignId('subscription_plan_id')->constrained()->cascadeOnDelete();
             $table->string('username')->unique();
             $table->string('password');
+            $table->date('subscribe_at');
             $table->date('start_date');
             $table->date('end_date');
             $table->timestamps();
