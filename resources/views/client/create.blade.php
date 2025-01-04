@@ -3,7 +3,9 @@
 @section('title', 'Create Client')
 
 @section('content')
-
+<head>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap" async></script>
+</head>
 <main>
     <header class="page-header page-header-compact page-header-light border-bottom bg-white mb-4">
         <div class="container-xl px-4">
