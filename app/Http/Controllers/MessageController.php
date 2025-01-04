@@ -148,6 +148,8 @@ class MessageController extends Controller
         // Check if phone number doesn have country code then change the first example is 0 to default is 62
         if (substr($phone, 0, 1) == '0') {
             $updatedPhone = '62' . substr($phone, 1);
+        } else {
+            $updatedPhone = $phone;
         }
 
         $subscription = Subscription::whereHas('client', function ($query) use ($phone, $updatedPhone) {

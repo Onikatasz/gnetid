@@ -122,6 +122,8 @@ class SubscriptionController extends Controller
     {
         if (substr($phone, 0, 1) == '0') {
             $updatedPhone = '62' . substr($phone, 1);
+        } else {
+            $updatedPhone = $phone;
         }
 
         $subscription = Subscription::whereHas('client', function ($query) use ($phone, $updatedPhone) {

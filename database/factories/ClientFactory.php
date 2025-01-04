@@ -18,7 +18,7 @@ class ClientFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'phone' => $this->faker->unique()->phoneNumber(),
+            'phone' => preg_replace('/\D/', '', $this->faker->unique()->e164PhoneNumber()),
             'nik' => $this->generateNik(),
             'address' => $this->faker->address(),
             'latitude' => $this->faker->latitude(),
